@@ -1,12 +1,23 @@
-import React from 'react';
+import React, {Component} from 'react';
 import './App.css';
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 
-const App: React.FC = () =>  {
-  return (
-    <div className="App">
-      <h2>Hello~ my React</h2>
-    </div>
-  );
+import TodoList2 from "./containers/TodoList";
+import Nav from "./views/Nav";
+import ClubContainer from "./containers/ClubContainer";
+
+
+class App extends Component {
+    render(){
+        return (
+
+            <div className="App">
+                <Nav/>
+                {/*<TodoList2 />*/}
+                <ClubContainer/>
+            </div>
+        );
+    }
 }
 
 export default App;
