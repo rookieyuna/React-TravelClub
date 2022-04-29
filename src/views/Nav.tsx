@@ -7,9 +7,9 @@ class Nav extends Component {
             <nav className='navtop'>
                 <h2>Travel Club</h2>
                 <ul className='nav-links'>
-                    <li><a href='#'>Main</a></li>
-                    <li><a href='#'>Club</a></li>
-                    <li><a href='#'>Member</a></li>
+                    <li><NavLink to='/'>Club</NavLink></li>
+                    <li><NavLink to='/member'>Member</NavLink></li>
+                    <li><NavLink to='/board'>Board</NavLink></li>
                 </ul>
             </nav>
         )

@@ -1,37 +1,51 @@
 import {inject, observer} from "mobx-react";
-import {Component, useRef} from "react";
+import React, {Component, useRef} from "react";
 import clubStore from "../stores/ClubStore";
-import {Button} from "@material-ui/core";
+import {Button, Container, Paper} from "@material-ui/core";
 import SaveIcon from '@material-ui/icons/Save';
+import autobind from "autobind-decorator";
 
 
-@inject('clubStore')
+@autobind
 @observer
-class ClubEditFormViewView extends Component<any, any> {
+class ClubEditFormView extends Component<any, any> {
 
     render() {
 
-        const { onAddClub } = this.props;
-
-        let inputName = document.getElementById("clubName");
-        let inputIntro = document.getElementById("clubIntro");
+        const { club, clubState, onSetClubProps, onAddClub, onUpdateClub } = this.props;  //컨테이너에서 받아온 프롭스
 
         return (
-
-            <form>
-                <div className="input_area">
-                    <label>Club Name </label>
-                    <input type="text" placeholder="ABC Club" id="clubName" />
-                </div>
-                <div className="input_area">
-                    <label>Club Intro </label>
-                    <input type="text" placeholder="Hello, Welcome" id="clubIntro" />
-                </div>
-                <br/>
-                <Button variant='contained' color='primary' startIcon={<SaveIcon />}
-                        onClick={onAddClub}>Save</Button>&nbsp;&nbsp;
-            </form>
+            <Container  component={Paper}>
+                {
+                    clubState === true ? <h2>New Club Register</h2> : <h2>Club Id "{club.clubId}" Update</h2>
+                    //nowState값이 true인경우 생성폼이고 false인 경우 update폼
+                }
+                <form>
+                    <div className="input_area">
+                        <label>Club Name </label>
+                        <input type="text" placeholder="ABC Club" id="clubName"
+                               value={ club && club.name ? club.name : '' }
+                               onChange={(event) => onSetClubProps('name', event.target.value)}/>
+                    </div>
+                    <div className="input_area">
+                        <label>Club Intro </label>
+                        <input type="text" placeholder="Hello, Welcome"
+                               value={ club && club.intro ? club.intro : '' }
+                               onChange={(event) => onSetClubProps('intro', event.target.value)}/>
+                    </div>
+                    <br/>
+                    {
+                        clubState === true ?
+                            <Button variant='contained' color='primary' startIcon={<SaveIcon />}
+                                    onClick={onAddClub}>Add</Button>
+                        : <Button variant='contained' color='default' startIcon={<SaveIcon />}
+                                  onClick={onUpdateClub}>Update</Button>
+                        //nowState 값이 true인경우 생성버튼으로 add수행하고 false인 경우 Updatd버튼으로 업데이트 수행
+                    }
+                    <br/><br/>
+                </form>
+            </Container>
         );
     }
 }
-export default ClubEditFormViewView;
+export default ClubEditFormView;

@@ -7,7 +7,7 @@ class TravelClub implements AutoIdEntity{
     private readonly MINIMUM_NAME_LENGTH: number = 3;
     private readonly MINIMUM_INTRO_LENGTH: number = 10;
 
-    usid: string = '';
+    clubId: string = '';
     name: string = '';
     intro: string = '';
     foundationDate: string = '';
@@ -16,19 +16,21 @@ class TravelClub implements AutoIdEntity{
 
     constructor(name: string, intro:string) {
         //
-        this.setName(name);
-        this.setIntro(intro);
+        //this.setName(name);
+        //this.setIntro(intro);
+        this.name = name;
+        this.intro = intro;
         this.foundationDate = DateUtil.today();
     }
 
     getId(): string {
         //
-        return this.usid;
+        return this.clubId;
     }
 
     setAutoId(autoId: string): void {
         //
-        this.usid = autoId;
+        this.clubId = autoId;
     }
 
     getMembershipBy(email: string): ClubMembership | null {

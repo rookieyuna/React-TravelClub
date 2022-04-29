@@ -6,11 +6,12 @@
   justify-content: space-around;
   align-items: center;
   min-height: 10vh;
-  background: rgb(121, 149, 241);
+  background: rgb(228, 151, 239);
   color: white;
 }
 
 .nav-links {
+  font-size: 20px;
   width: 50%;
   display: flex;
   justify-content: space-around;
@@ -18,8 +19,13 @@
   list-style: none;
 }
 
+a {
+  color: black; text-decoration: none;
+}
+
 .active {
-  background: rgb(162, 231, 231);
+  font-weight: bold;
+  color: white;
   text-decoration: none;
 }
 .input_area {
@@ -28,11 +34,11 @@
 
 .input_area label {
   display: block;
+  font-size: 18px;
   margin-bottom: 10px;
 }
 
 .input_area input {
-  width: 400px;
   height: 40px;
   font-size: 20px;
   padding: 0 10px;
@@ -54,4 +60,8 @@ button {
   padding: 10px 20px;
   color: #fff;
   background-color: dodgerblue;
+}
+
+h2 {
+  padding: 10px;
 }

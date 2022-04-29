@@ -4,19 +4,18 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'mobx-react'
+import MemberStore from "./stores/MemberStore";
 import ClubStore from "./stores/ClubStore";
-
-
-const clubStore = new ClubStore();
+import {BrowserRouter} from "react-router-dom";
 
 ReactDOM.render(
 
-    <Provider clubStore={clubStore}>
-
-        <React.StrictMode>
-            <App />
-        </React.StrictMode>
-
+    <Provider clubStore={ClubStore} memberStore={MemberStore}>
+        <BrowserRouter>
+            <React.StrictMode>
+                <App />
+            </React.StrictMode>
+        </BrowserRouter>
     </Provider>,
     document.getElementById("root")
 );

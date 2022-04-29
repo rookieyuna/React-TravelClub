@@ -31,7 +31,7 @@ class SocialBoard implements Entity {
         //
         const member = CommunityMember.getSample();
 
-        const board = new SocialBoard(club.usid, club.name, member.email);
+        const board = new SocialBoard(club.clubId, club.name, member.email);
 
         board.createDate = '2022.01.01';
 

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button, Checkbox, IconButton, TextField } from "@material-ui/core";
 import { ITodo } from "../stores/TodoStore";
 import { useStores } from "../useStore";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import {inject} from "mobx-react";
@@ -40,6 +40,7 @@ const TodoItem = observer(({ todo }: IProps) => {
                             setFormvalue(e.target.value)
                         }
                     />
+
                     <Button
                         variant="contained"
                         color="primary"

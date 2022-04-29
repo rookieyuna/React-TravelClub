@@ -6,15 +6,16 @@ import {Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper,
 import {inject, observer} from "mobx-react";
 import TravelClub from "../entity/club/TravelClub";
 import autobind from "autobind-decorator";
+import CommunityMember from "../entity/club/CommunityMember";
 
 @autobind
 @observer
-class ClubListView extends Component<any, any>{
+class MemberListView extends Component<any, any>{
 
 
     render() {
 
-        const {clubs, clubState, onSelectedClub, onRemoveClub} = this.props;
+        const {members, memberState, onSelectedMember, onRemoveMember} = this.props;
 
         return (
 
@@ -22,29 +23,29 @@ class ClubListView extends Component<any, any>{
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell align='center'>Club Id</TableCell>
-                            <TableCell align='center'>Club Name</TableCell>
-                            <TableCell align='center'>Club Intro</TableCell>
-                            <TableCell align='center'>Foundation Date</TableCell>
+                            <TableCell align='center'>Member Email</TableCell>
+                            <TableCell align='center'>Name</TableCell>
+                            <TableCell align='center'>Phone Number</TableCell>
+                            <TableCell align='center'>Nickname</TableCell>
                             <TableCell align='center'>MemberList</TableCell>
                             <TableCell align='center'>Edit</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {
-                    Array.isArray(clubs) && clubs.length ?
-                        clubs.map( (club: TravelClub ) => (
-                            <TableRow key={club.clubId} hover >
-                                <TableCell align='center'>{club.clubId}</TableCell>
-                                <TableCell align='center'>{club.name}</TableCell>
-                                <TableCell align='center'>{club.intro}</TableCell>
-                                <TableCell align='center'>{club.foundationDate}</TableCell>
+                    Array.isArray(members) && members.length ?
+                        members.map( (member: CommunityMember ) => (
+                            <TableRow key={member.email} hover >
+                                <TableCell align='center'>{member.email}</TableCell>
+                                <TableCell align='center'>{member.name}</TableCell>
+                                <TableCell align='center'>{member.phoneNumber}</TableCell>
+                                <TableCell align='center'>-</TableCell>
                                 <TableCell align='center'><ListAltIcon/></TableCell>
                                 <TableCell align='center'>
                                     <Button variant='contained' color='default' startIcon={<UpdateIcon/>}
-                                            onClick={() => onSelectedClub(club)}></Button>&nbsp;&nbsp;
+                                            onClick={() => onSelectedMember(member)}></Button>&nbsp;&nbsp;
                                     <Button variant='contained' color='secondary' startIcon={<DeleteIcon/>}
-                                        onClick={() => onRemoveClub(club)}></Button>
+                                        onClick={() => onRemoveMember(member)}></Button>
                                 </TableCell>
                             </TableRow>
                             ))
@@ -60,4 +61,4 @@ class ClubListView extends Component<any, any>{
     }
 }
 
-export default ClubListView;
+export default MemberListView;

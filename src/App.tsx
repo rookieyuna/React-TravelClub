@@ -1,20 +1,24 @@
 import React, {Component} from 'react';
 import './App.css';
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 
-import TodoList2 from "./containers/TodoList";
 import Nav from "./views/Nav";
 import ClubContainer from "./containers/ClubContainer";
+import TodoList from "./containers/TodoList";
+import EmptyPage from "./containers/EmptyPage";
+import MemberContainer from "./containers/MemberContainer";
 
 
 class App extends Component {
     render(){
         return (
-
             <div className="App">
                 <Nav/>
-                {/*<TodoList2 />*/}
-                <ClubContainer/>
+                <Routes>
+                    <Route path="/" element={<ClubContainer/>} />
+                    <Route path="/member" element={<MemberContainer />} />
+                    <Route path="*" element={<EmptyPage/>} />
+                </Routes>
             </div>
         );
     }
