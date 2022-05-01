@@ -1,6 +1,5 @@
 import {observable, makeObservable, computed, toJS, action} from 'mobx';
 import CommunityMember from "../entity/club/CommunityMember";
-import TravelClub from "../entity/club/TravelClub";
 
 
 class MemberStore{
@@ -62,6 +61,11 @@ class MemberStore{
     //입력폼 생성/수정 상태값 변경
     @action
     setMemberStateToAdd(): void{
+        this._member = {
+            email: '',
+            name: '',
+            phoneNumber: ''
+        }; //업데이트 하려했던 데이터 비우기
         this._memberState = true;
     }
 
@@ -76,12 +80,24 @@ class MemberStore{
     @action
     addMember(member: any): void {
 
-        //id중복확인작업 !!
+        //이메일 형식 확인작업
+        if (!this.isValidEmailAddress(member.email)) {
+            alert('Email format is incorrect')
+            return;
+        }
 
         const newMember = new CommunityMember(member.email, member.name, member.phoneNumber);
         this._members.push(newMember);
         console.log('새 멤버 추가완료');
     };
+
+    isValidEmailAddress(email: string): boolean{
+
+        const ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+
+        return !!email.match(ePattern);
+    }
+
 
     //선택한 CommunityMember 데이터로 현재 member 데이터가 변경되는 메서드
     @action

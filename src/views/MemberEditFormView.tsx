@@ -1,9 +1,9 @@
-import {inject, observer} from "mobx-react";
-import React, {Component, useRef} from "react";
-import clubStore from "../stores/ClubStore";
+import {observer} from "mobx-react";
+import React, {Component} from "react";
 import {Button, Container, Paper} from "@material-ui/core";
 import SaveIcon from '@material-ui/icons/Save';
 import autobind from "autobind-decorator";
+import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 
 
 @autobind
@@ -12,7 +12,7 @@ class MemberEditFormView extends Component<any, any> {
 
     render() {
 
-        const { member, memberState, onSetMemberProps, onAddMember, onUpdateMember } = this.props;  //컨테이너에서 받아온 프롭스
+        const { member, memberState, onSetMemberProps, onSetMemberStateToAdd, onAddMember, onUpdateMember } = this.props;  //컨테이너에서 받아온 프롭스
 
         return (
             <Container  component={Paper}>
@@ -26,12 +26,12 @@ class MemberEditFormView extends Component<any, any> {
                         {
                             memberState === true ?
                                 <input type="text" placeholder="abc@gmail.com"
+                                       value={ member && member.email ? member.email : '' }
                                        onChange={(event) => onSetMemberProps('email', event.target.value)}/>
-                                : <input type="text" placeholder="abc@gmail.com" readOnly
+                                : <input type="text" placeholder="abc@gmail.com"
                                          value={ member && member.email ? member.email : '' }/>
                             //업데이트 폼인경우 Email 수정 못하도록 막음(primary key 라서 수정하면 안됨)
                         }
-
                     </div>
                     <div className="input_area">
                         <label>Member Name </label>
@@ -49,10 +49,15 @@ class MemberEditFormView extends Component<any, any> {
                     {
                         memberState === true ?
                             <Button variant='contained' color='primary' startIcon={<SaveIcon />}
-                                    onClick={onAddMember}>Add</Button>
-                        : <Button variant='contained' color='default' startIcon={<SaveIcon />}
+                                  onClick={onAddMember}>Add</Button>
+                        : <>
+                            <Button variant='contained' color='default' startIcon={<SaveIcon />}
                                   onClick={onUpdateMember}>Update</Button>
-                        //nowState 값이 true인경우 생성버튼으로 add수행하고 false인 경우 Updatd버튼으로 업데이트 수행
+                            <br/><br/>
+                            <Button variant='contained' color='primary' startIcon={<KeyboardReturnIcon />}
+                                  onClick={onSetMemberStateToAdd}>Back to Add</Button>
+                        </>
+                        //nowState 값이 true인경우 생성버튼으로 add수행하고 false인 경우 Update버튼으로 업데이트 수행
                     }
                     <br/><br/>
                 </form>

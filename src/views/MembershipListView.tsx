@@ -3,19 +3,20 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import {Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper, Button} from '@material-ui/core';
-import {observer} from "mobx-react";
+import {inject, observer} from "mobx-react";
 import TravelClub from "../entity/club/TravelClub";
 import autobind from "autobind-decorator";
-import {Link} from "react-router-dom";
+import CommunityMember from "../entity/club/CommunityMember";
+import ClubMembership from "../entity/club/ClubMembership";
 
 @autobind
 @observer
-class ClubListView extends Component<any, any>{
+class MembershipListView extends Component<any, any>{
 
 
     render() {
 
-        const {clubs, clubState, onSelectedClub, onRemoveClub} = this.props;
+        const {memberships, membershipState, onSelectedMembership, onRemoveMembership} = this.props;
 
         return (
 
@@ -24,28 +25,26 @@ class ClubListView extends Component<any, any>{
                     <TableHead>
                         <TableRow>
                             <TableCell align='center'>Club Id</TableCell>
-                            <TableCell align='center'>Club Name</TableCell>
-                            <TableCell align='center'>Club Intro</TableCell>
-                            <TableCell align='center'>Foundation Date</TableCell>
-                            <TableCell align='center'>MemberList</TableCell>
+                            <TableCell align='center'>Email</TableCell>
+                            <TableCell align='center'>Role</TableCell>
+                            <TableCell align='center'>Join Date</TableCell>
                             <TableCell align='center'>Edit</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {
-                    Array.isArray(clubs) && clubs.length ?
-                        clubs.map( (club: TravelClub ) => (
-                            <TableRow key={club.clubId} hover >
-                                <TableCell align='center'>{club.clubId}</TableCell>
-                                <TableCell align='center'>{club.name}</TableCell>
-                                <TableCell align='center'>{club.intro}</TableCell>
-                                <TableCell align='center'>{club.foundationDate}</TableCell>
-                                <TableCell align='center'><Link to={`/membership/${club.clubId}`}><ListAltIcon/></Link></TableCell>
+                    Array.isArray(memberships) && memberships.length ?
+                        memberships.map( (membership: ClubMembership ) => (
+                            <TableRow key={membership.memberEmail} hover >
+                                <TableCell align='center'>{membership.clubId}</TableCell>
+                                <TableCell align='center'>{membership.memberEmail}</TableCell>
+                                <TableCell align='center'>{membership.role}</TableCell>
+                                <TableCell align='center'>{membership.joinDate}</TableCell>
                                 <TableCell align='center'>
                                     <Button variant='contained' color='default' startIcon={<UpdateIcon/>}
-                                            onClick={() => onSelectedClub(club)}></Button>&nbsp;&nbsp;
+                                            onClick={() => onSelectedMembership(membership)}></Button>&nbsp;&nbsp;
                                     <Button variant='contained' color='secondary' startIcon={<DeleteIcon/>}
-                                        onClick={() => onRemoveClub(club)}></Button>
+                                        onClick={() => onRemoveMembership(membership)}></Button>
                                 </TableCell>
                             </TableRow>
                             ))
@@ -61,4 +60,4 @@ class ClubListView extends Component<any, any>{
     }
 }
 
-export default ClubListView;
+export default MembershipListView;

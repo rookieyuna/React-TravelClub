@@ -1,8 +1,8 @@
-import {inject, observer} from "mobx-react";
-import React, {Component, useRef} from "react";
-import clubStore from "../stores/ClubStore";
+import {observer} from "mobx-react";
+import React, {Component} from "react";
 import {Button, Container, Paper} from "@material-ui/core";
 import SaveIcon from '@material-ui/icons/Save';
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import autobind from "autobind-decorator";
 
 
@@ -12,7 +12,7 @@ class ClubEditFormView extends Component<any, any> {
 
     render() {
 
-        const { club, clubState, onSetClubProps, onAddClub, onUpdateClub } = this.props;  //컨테이너에서 받아온 프롭스
+        const { club, clubState, onSetClubProps, onSetClubStateToAdd, onAddClub, onUpdateClub } = this.props;  //컨테이너에서 받아온 프롭스
 
         return (
             <Container  component={Paper}>
@@ -38,8 +38,12 @@ class ClubEditFormView extends Component<any, any> {
                         clubState === true ?
                             <Button variant='contained' color='primary' startIcon={<SaveIcon />}
                                     onClick={onAddClub}>Add</Button>
-                        : <Button variant='contained' color='default' startIcon={<SaveIcon />}
+                        :<>
+                            <Button variant='contained' color='default' startIcon={<SaveIcon />}
                                   onClick={onUpdateClub}>Update</Button>
+                                <br/><br/>
+                            <Button variant='contained' color='primary' startIcon={<KeyboardReturnIcon />}
+                                onClick={onSetClubStateToAdd}>Back to Add</Button></>
                         //nowState 값이 true인경우 생성버튼으로 add수행하고 false인 경우 Updatd버튼으로 업데이트 수행
                     }
                     <br/><br/>

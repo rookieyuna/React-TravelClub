@@ -23,6 +23,11 @@ class ClubContainer extends Component<any, any>{
         this.props.clubStore.selectedClub(club);
     }
 
+    //업데이트 폼에서 등록버튼으로 돌아가기 위한 설정
+    onSetClubStateToAdd(){
+        this.props.clubStore.setClubStateToAdd();
+    }
+
     onAddClub(): void{
         let { clubStore } = this.props;
         //실시간저장 확인작업을 위한 console출력
@@ -47,8 +52,9 @@ class ClubContainer extends Component<any, any>{
     onUpdateClub(){
         let { clubStore } = this.props;
         //클럽이름 중복을 방지하기 위한 확인작업 (현재이름 그대로 유지할경우에도 가능하도록 Id확인)
+        //if(clubStore.club.clubId === )
         const overClub: TravelClub = clubStore.retrieveByName(clubStore.club.name);
-        if(overClub.clubId!==clubStore.club.clubId && overClub){
+        if(overClub && overClub.clubId!==clubStore.club.clubId){
             alert('The club name is already exist!');
             return;
         }
@@ -68,6 +74,8 @@ class ClubContainer extends Component<any, any>{
         }
     }
 
+
+
     render() {
 
         let { club, clubs, clubState, searchText } = this.props.clubStore;
@@ -83,6 +91,7 @@ class ClubContainer extends Component<any, any>{
                         club = {club}
                         clubState = {clubState} //입력폼 생성&수정 변경위한 값
                         onSetClubProps = {this.onSetClubProps}
+                        onSetClubStateToAdd = {this.onSetClubStateToAdd}
                         onAddClub = {this.onAddClub}
                         onUpdateClub = {this.onUpdateClub}
                     />
