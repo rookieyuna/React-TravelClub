@@ -39,13 +39,14 @@ a {
 }
 
 .input_area input {
+  width: 220px;
   height: 40px;
   font-size: 20px;
   padding: 0 10px;
 }
 
 .input_area select {
-  width: 400px;
+  width: 240px;
   height: 40px;
   font-size: 20px;
 }

@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import './App.css';
-import {BrowserRouter, Routes, Route} from "react-router-dom";
-
+import {Routes, Route} from "react-router-dom";
 import Nav from "./views/Nav";
+import EmptyPage from "./views/EmptyPage";
 import ClubContainer from "./containers/ClubContainer";
-import TodoList from "./containers/TodoList";
-import EmptyPage from "./containers/EmptyPage";
 import MemberContainer from "./containers/MemberContainer";
 import MembershipContainer from "./containers/MembershipContainer";
 import MembershipOfMemberContainer from "./containers/MembershipOfMemberContainer";
+import BoardContainer from "./containers/BoardContainer";
 
 
 class App extends Component {
@@ -21,6 +20,7 @@ class App extends Component {
                     <Route path="/member" element={<MemberContainer />} />
                     <Route path="/membership/:id" element={<MembershipContainer />} />
                     <Route path="/membershipOf/:email" element={<MembershipOfMemberContainer />} />
+                    <Route path="/board" element={<BoardContainer />} />
                     <Route path="*" element={<EmptyPage/>} />
                 </Routes>
             </div>

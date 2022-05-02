@@ -6,7 +6,6 @@ import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import autobind from "autobind-decorator";
 
 
-@autobind
 @observer
 class ClubEditFormView extends Component<any, any> {
 

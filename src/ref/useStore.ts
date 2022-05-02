@@ -10,7 +10,7 @@ export default useStore;
 
 import { useContext } from "react";
 import { createContext } from "react";
-import { TodoStore } from "../src/stores/TodoStore";
+import { TodoStore } from "./TodoStore";
 
 const rootStoreContext = createContext({
     todoStore: new TodoStore()

@@ -84,21 +84,28 @@ class MemberStore{
     @action
     addMember(member: any): void {
 
-        //이메일 형식 확인작업
-        if (!this.isValidEmailAddress(member.email)) {
-            alert('Email format is incorrect')
-            return;
-        }
+        //이메일 형식 확인작업 //추후 주석 해제
+        // if (!this.isValidEmailAddress(member.email)) {
+        //     alert('Email format is incorrect')
+        //     return;
+        // }
 
         const newMember = new CommunityMember(member.email, member.name, member.phoneNumber);
         this._members.push(newMember);
         console.log('새 멤버 추가완료');
+
+        this._member = {
+            email: '',
+            name: '',
+            phoneNumber: '',
+            nickName: '',
+            birthDay: ''
+        }; //등록 완료후 데이터 비우기
     };
 
     isValidEmailAddress(email: string): boolean{
 
         const ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
-
         return !!email.match(ePattern);
     }
 

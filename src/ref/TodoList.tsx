@@ -4,7 +4,7 @@ import TodoItem from "./TodoItem";
 //import { StyledTodoList, StyledHeader, Container } from "./styles";
 import { Button } from "@material-ui/core";
 //import ModalNewTodo from "../ModalNewTodo";
-import { useStores } from "../useStore";
+import { useStores } from "./useStore";
 
 const TodoList = observer(() => {
     const [modalNewTodoIsOpen, setModalNewTodo] = useState(false);

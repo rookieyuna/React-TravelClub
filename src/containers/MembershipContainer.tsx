@@ -3,15 +3,14 @@ import {inject, observer} from "mobx-react";
 import {Grid} from "@material-ui/core";
 import autobind from "autobind-decorator";
 import SearchbarContainer from "./SearchbarContainer";
-import MembershipEditFormView from "../views/MembershipEditFormView";
-import MembershipListView from "../views/MembershipListView";
+import MembershipEditFormView from "../views/membershipviews/MembershipEditFormView";
+import MembershipListView from "../views/membershipviews/MembershipListView";
 import ClubMembership from "../entity/club/ClubMembership";
 import RoleInClub from "../entity/club/RoleInClub";
 
 
 
 @inject('clubStore', 'memberStore', 'membershipStore')
-@autobind
 @observer
 class MembershipContainer extends Component<any, any>{
 
@@ -81,12 +80,10 @@ class MembershipContainer extends Component<any, any>{
 
     render() {
 
-        let { membership, memberships, membershipState, searchText} = this.props.membershipStore;
+        let { membership, memberships, membershipState, searchText, paramId } = this.props.membershipStore
 
-        let paramId  = window.location.pathname.split('/')[2]; //파라미터 저장
+        paramId  = window.location.pathname.split('/')[2]; //파라미터 저장
 
-        //선택한 클럽 멤버십목록만 노출
-        memberships = memberships.filter((searchMembership: ClubMembership) => searchMembership.clubId === paramId)
         //검색
         memberships = memberships.filter((searchMembership: ClubMembership) => searchMembership.memberEmail.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)
 
@@ -99,10 +96,10 @@ class MembershipContainer extends Component<any, any>{
 
                         membership = {membership}
                         membershipState = {membershipState} //입력폼 생성&수정 변경위한 값
-                        onSetMembershipProps = {this.onSetMembershipProps}
-                        onSetMembershipStateToAdd = {this.onSetMembershipStateToAdd}
-                        onAddMembership = {this.onAddMembership}
-                        onUpdateMembership = {this.onUpdateMembership}
+                        onSetMembershipProps = {this.onSetMembershipProps.bind(this)}
+                        onSetMembershipStateToAdd = {this.onSetMembershipStateToAdd.bind(this)}
+                        onAddMembership = {this.onAddMembership.bind(this)}
+                        onUpdateMembership = {this.onUpdateMembership.bind(this)}
                     />
                 </Grid>
                 <Grid item xs={9}>
@@ -110,8 +107,8 @@ class MembershipContainer extends Component<any, any>{
                     <MembershipListView
                         memberships = {memberships}
                         membershipState = {membershipState} //입력폼 생성&수정 변경위한 값
-                        onSelectedMembership = {this.onSelectedMembership} //인풋태그 업데이트용 프롭스로 전달
-                        onRemoveMembership = {this.onRemoveMembership} //삭제함수를 프롭스로 전달
+                        onSelectedMembership = {this.onSelectedMembership.bind(this)} //인풋태그 업데이트용 프롭스로 전달
+                        onRemoveMembership = {this.onRemoveMembership.bind(this)} //삭제함수를 프롭스로 전달
                     />
                 </Grid>
             </Grid>

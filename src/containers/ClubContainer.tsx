@@ -1,8 +1,8 @@
 import {Component} from "react";
 import {inject, observer} from "mobx-react";
-import ClubListView from "../views/ClubListView";
+import ClubListView from "../views/clubviews/ClubListView";
 import {Grid} from "@material-ui/core";
-import ClubEditFormView from "../views/ClubEditFormView";
+import ClubEditFormView from "../views/clubviews/ClubEditFormView";
 import autobind from "autobind-decorator";
 import clubStore from "../stores/ClubStore";
 import TravelClub from "../entity/club/TravelClub";
@@ -10,7 +10,6 @@ import SearchbarContainer from "./SearchbarContainer";
 
 
 @inject('clubStore')
-@autobind
 @observer
 class ClubContainer extends Component<any, any>{
 
@@ -89,10 +88,10 @@ class ClubContainer extends Component<any, any>{
                     <ClubEditFormView
                         club = {club}
                         clubState = {clubState} //입력폼 생성&수정 변경위한 값
-                        onSetClubProps = {this.onSetClubProps}
-                        onSetClubStateToAdd = {this.onSetClubStateToAdd}
-                        onAddClub = {this.onAddClub}
-                        onUpdateClub = {this.onUpdateClub}
+                        onSetClubProps = {this.onSetClubProps.bind(this)}
+                        onSetClubStateToAdd = {this.onSetClubStateToAdd.bind(this)}
+                        onAddClub = {this.onAddClub.bind(this)}
+                        onUpdateClub = {this.onUpdateClub.bind(this)}
                     />
                 </Grid>
                 <Grid item xs={9}>
@@ -100,17 +99,13 @@ class ClubContainer extends Component<any, any>{
                     <ClubListView
                         clubs = {clubs}
                         clubState = {clubState} //입력폼 생성&수정 변경위한 값
-                        onSelectedClub = {this.onSelectedClub} //인풋태그 업데이트용 프롭스로 전달
-                        onRemoveClub = {this.onRemoveClub} //삭제함수를 프롭스로 전달
+                        onSelectedClub = {this.onSelectedClub.bind(this)} //인풋태그 업데이트용 프롭스로 전달
+                        onRemoveClub = {this.onRemoveClub.bind(this)} //삭제함수를 프롭스로 전달
                     />
                 </Grid>
             </Grid>
         </>
         )
-    }
-
-    componentWillUnmount() {
-
     }
 }
 

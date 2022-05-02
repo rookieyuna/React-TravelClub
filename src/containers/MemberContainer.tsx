@@ -4,12 +4,12 @@ import {Grid} from "@material-ui/core";
 import autobind from "autobind-decorator";
 import SearchbarContainer from "./SearchbarContainer";
 import CommunityMember from "../entity/club/CommunityMember";
-import MemberEditFormView from "../views/MemberEditFormView";
-import MemberListView from "../views/MemberListView";
+import MemberEditFormView from "../views/memberviews/MemberEditFormView";
+import MemberListView from "../views/memberviews/MemberListView";
 
 
 @inject('memberStore')
-@autobind
+
 @observer
 class MemberContainer extends Component<any, any>{
 
@@ -79,10 +79,10 @@ class MemberContainer extends Component<any, any>{
                     <MemberEditFormView
                         member = {member}
                         memberState = {memberState} //입력폼 생성&수정 변경위한 값
-                        onSetMemberProps = {this.onSetMemberProps}
-                        onSetMemberStateToAdd ={this.onSetMemberStateToAdd}
-                        onAddMember = {this.onAddMember}
-                        onUpdateMember = {this.onUpdateMember}
+                        onSetMemberProps = {this.onSetMemberProps.bind(this)}
+                        onSetMemberStateToAdd ={this.onSetMemberStateToAdd.bind(this)}
+                        onAddMember = {this.onAddMember.bind(this)}
+                        onUpdateMember = {this.onUpdateMember.bind(this)}
                     />
                 </Grid>
                 <Grid item xs={9}>
@@ -90,16 +90,13 @@ class MemberContainer extends Component<any, any>{
                     <MemberListView
                         members = {members}
                         memberState = {memberState} //입력폼 생성&수정 변경위한 값
-                        onSelectedMember = {this.onSelectedMember} //인풋태그 업데이트용 프롭스로 전달
-                        onRemoveMember = {this.onRemoveMember} //삭제함수를 프롭스로 전달
+                        onSelectedMember = {this.onSelectedMember.bind(this)} //인풋태그 업데이트용 프롭스로 전달
+                        onRemoveMember = {this.onRemoveMember.bind(this)} //삭제함수를 프롭스로 전달
                     />
                 </Grid>
             </Grid>
         </>
         )
-    }
-
-    componentWillUnmount() {
     }
 }
 

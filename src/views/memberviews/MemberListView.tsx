@@ -3,13 +3,12 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import {Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper, Button} from '@material-ui/core';
-import {inject, observer} from "mobx-react";
-import TravelClub from "../entity/club/TravelClub";
-import autobind from "autobind-decorator";
-import CommunityMember from "../entity/club/CommunityMember";
+import {observer} from "mobx-react";
 import {Link} from "react-router-dom";
+import CommunityMember from "../../entity/club/CommunityMember";
 
-@autobind
+
+
 @observer
 class MemberListView extends Component<any, any>{
 

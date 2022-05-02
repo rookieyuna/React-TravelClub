@@ -5,8 +5,7 @@ import {inject, observer} from "mobx-react";
 import autobind from "autobind-decorator";
 
 
-@inject('clubStore', 'memberStore', 'membershipStore')
-@autobind
+@inject('clubStore', 'memberStore', 'membershipStore', 'boardStore')
 @observer
 class SearchbarContainer extends Component<any> {
 
@@ -14,7 +13,8 @@ class SearchbarContainer extends Component<any> {
         this.props.clubStore.setSearchText(searchText);
         this.props.memberStore.setSearchText(searchText);
         this.props.membershipStore.setSearchText(searchText);
-        console.log('search'+ searchText);
+        this.props.boardStore.setSearchText(searchText);
+        console.log('search: '+ searchText);
     }
 
     render(){

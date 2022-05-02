@@ -46,6 +46,7 @@ class MembershipStore{
     }
 
 
+
     /**********************************************/
 
     //club 값 설정해주는 메서드
@@ -80,7 +81,8 @@ class MembershipStore{
     }
 
 
-    /************************************************/
+    /************************************************
+     *************************************************/
 
 
     //memberships 목록에 membership 데이터 ClubMembership 타입으로 저장
@@ -91,11 +93,16 @@ class MembershipStore{
 
         this._memberships.push(newMembership);
         console.log('새 멤버쉽 추가완료');
+
+        this._membership = {
+            clubId: '',
+            memberEmail: '',
+            role: '',
+        }; //등록 완료후 데이터 비우기
     };
 
 
     //clubId로 ClubMembership 찾기 (멤버쉽 리스트 반환)
-    @action
     retrieveByClubId = (clubId: string):ClubMembership[] | null => {
         let foundMembership = this._memberships.filter((membership)=> membership.clubId === clubId);
         return foundMembership || null;

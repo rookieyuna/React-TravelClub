@@ -2,11 +2,10 @@ import {observer} from "mobx-react";
 import React, {Component} from "react";
 import {Button, Container, Paper} from "@material-ui/core";
 import SaveIcon from '@material-ui/icons/Save';
-import autobind from "autobind-decorator";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 
 
-@autobind
+
 @observer
 class MembershipEditFormView extends Component<any, any> {
 
@@ -47,8 +46,6 @@ class MembershipEditFormView extends Component<any, any> {
                                            onChange={(event) => onSetMembershipProps('role', event.target.value)}/>
                                 </div>
                             </>
-
-
                     }
                     <br/>
                     {

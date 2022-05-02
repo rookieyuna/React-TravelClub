@@ -1,15 +1,11 @@
 import React, {Component} from "react";
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
-import ListAltIcon from '@mui/icons-material/ListAlt';
 import {Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper, Button} from '@material-ui/core';
-import {inject, observer} from "mobx-react";
-import TravelClub from "../entity/club/TravelClub";
-import autobind from "autobind-decorator";
-import CommunityMember from "../entity/club/CommunityMember";
-import ClubMembership from "../entity/club/ClubMembership";
+import {observer} from "mobx-react";
+import ClubMembership from "../../entity/club/ClubMembership";
 
-@autobind
+
 @observer
 class MembershipListView extends Component<any, any>{
 
@@ -18,9 +14,10 @@ class MembershipListView extends Component<any, any>{
 
         const {memberships, membershipState, onSelectedMembership, onRemoveMembership} = this.props;
 
+        let paramId  = window.location.pathname.split('/')[2];
+        let newLists = memberships.filter((searchMembership: ClubMembership) => searchMembership.clubId === paramId);
+
         return (
-
-
             <TableContainer component={Paper} >
                 <Table>
                     <TableHead>
@@ -34,8 +31,8 @@ class MembershipListView extends Component<any, any>{
                     </TableHead>
                     <TableBody>
                         {
-                    Array.isArray(memberships) && memberships.length ?
-                        memberships.map( (membership: ClubMembership ) => (
+                    Array.isArray(newLists) && newLists.length ?
+                        newLists.map( (membership: ClubMembership ) => (
                             <TableRow key={membership.memberEmail} hover >
                                 <TableCell align='center'>{membership.clubId}</TableCell>
                                 <TableCell align='center'>{membership.memberEmail}</TableCell>

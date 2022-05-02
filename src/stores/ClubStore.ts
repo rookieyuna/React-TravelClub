@@ -1,6 +1,5 @@
 import {observable, makeObservable, computed, toJS, action} from 'mobx';
 import TravelClub from "../entity/club/TravelClub"
-import ClubMembership from "../entity/club/ClubMembership";
 
 class ClubStore{
 
@@ -89,6 +88,13 @@ class ClubStore{
         this._clubs.push(newClub);
         console.log('새 클럽 추가완료');
         this.currentId++; //시퀀스 증가
+
+        this._club = {
+            clubId: '',
+            name: '',
+            intro: ''
+        }; //등록 완료후 input 데이터 비우기
+
     };
 
 
