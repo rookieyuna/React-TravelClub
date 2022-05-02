@@ -98,6 +98,9 @@ class MemberContainer extends Component<any, any>{
         </>
         )
     }
+
+    componentWillUnmount() {
+    }
 }
 
 export default MemberContainer;

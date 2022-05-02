@@ -52,7 +52,6 @@ class ClubContainer extends Component<any, any>{
     onUpdateClub(){
         let { clubStore } = this.props;
         //클럽이름 중복을 방지하기 위한 확인작업 (현재이름 그대로 유지할경우에도 가능하도록 Id확인)
-        //if(clubStore.club.clubId === )
         const overClub: TravelClub = clubStore.retrieveByName(clubStore.club.name);
         if(overClub && overClub.clubId!==clubStore.club.clubId){
             alert('The club name is already exist!');
@@ -108,6 +107,10 @@ class ClubContainer extends Component<any, any>{
             </Grid>
         </>
         )
+    }
+
+    componentWillUnmount() {
+
     }
 }
 

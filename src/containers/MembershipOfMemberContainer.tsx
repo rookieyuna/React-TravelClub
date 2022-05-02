@@ -85,27 +85,18 @@ class MembershipContainer extends Component<any, any>{
 
         let paramId  = window.location.pathname.split('/')[2]; //파라미터 저장
 
+        console.log(paramId);
+
         //선택한 클럽 멤버십목록만 노출
-        memberships = memberships.filter((searchMembership: ClubMembership) => searchMembership.clubId === paramId)
+        memberships = memberships.filter((searchMembership: ClubMembership) => searchMembership.memberEmail === paramId)
         //검색
         memberships = memberships.filter((searchMembership: ClubMembership) => searchMembership.memberEmail.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)
 
         return (
         <>
-            <h1>Membership for Club {paramId}</h1>
+            <h1>Membership for {paramId}</h1>
             <Grid container spacing={2}>
-                <Grid item xs={3}>
-                    <MembershipEditFormView
-
-                        membership = {membership}
-                        membershipState = {membershipState} //입력폼 생성&수정 변경위한 값
-                        onSetMembershipProps = {this.onSetMembershipProps}
-                        onSetMembershipStateToAdd = {this.onSetMembershipStateToAdd}
-                        onAddMembership = {this.onAddMembership}
-                        onUpdateMembership = {this.onUpdateMembership}
-                    />
-                </Grid>
-                <Grid item xs={9}>
+                <Grid item xs={12}>
                     <SearchbarContainer />
                     <MembershipListView
                         memberships = {memberships}

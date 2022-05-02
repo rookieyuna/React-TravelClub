@@ -8,6 +8,7 @@ import TodoList from "./containers/TodoList";
 import EmptyPage from "./containers/EmptyPage";
 import MemberContainer from "./containers/MemberContainer";
 import MembershipContainer from "./containers/MembershipContainer";
+import MembershipOfMemberContainer from "./containers/MembershipOfMemberContainer";
 
 
 class App extends Component {
@@ -18,7 +19,8 @@ class App extends Component {
                 <Routes>
                     <Route path="/" element={<ClubContainer/>} />
                     <Route path="/member" element={<MemberContainer />} />
-                    <Route path="/membership/:clubId" element={<MembershipContainer />} />
+                    <Route path="/membership/:id" element={<MembershipContainer />} />
+                    <Route path="/membershipOf/:email" element={<MembershipOfMemberContainer />} />
                     <Route path="*" element={<EmptyPage/>} />
                 </Routes>
             </div>

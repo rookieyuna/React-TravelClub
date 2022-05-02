@@ -7,6 +7,7 @@ import {inject, observer} from "mobx-react";
 import TravelClub from "../entity/club/TravelClub";
 import autobind from "autobind-decorator";
 import CommunityMember from "../entity/club/CommunityMember";
+import {Link} from "react-router-dom";
 
 @autobind
 @observer
@@ -27,7 +28,8 @@ class MemberListView extends Component<any, any>{
                             <TableCell align='center'>Name</TableCell>
                             <TableCell align='center'>Phone Number</TableCell>
                             <TableCell align='center'>Nickname</TableCell>
-                            <TableCell align='center'>MemberList</TableCell>
+                            <TableCell align='center'>BirthDay</TableCell>
+                            <TableCell align='center'>Membership</TableCell>
                             <TableCell align='center'>Edit</TableCell>
                         </TableRow>
                     </TableHead>
@@ -39,8 +41,9 @@ class MemberListView extends Component<any, any>{
                                 <TableCell align='center'>{member.email}</TableCell>
                                 <TableCell align='center'>{member.name}</TableCell>
                                 <TableCell align='center'>{member.phoneNumber}</TableCell>
-                                <TableCell align='center'>-</TableCell>
-                                <TableCell align='center'><ListAltIcon/></TableCell>
+                                <TableCell align='center'>{member.nickName}</TableCell>
+                                <TableCell align='center'>{member.birthDay}</TableCell>
+                                <TableCell align='center'><Link to={`/membershipOf/${member.email}`}><ListAltIcon/></Link></TableCell>
                                 <TableCell align='center'>
                                     <Button variant='contained' color='default' startIcon={<UpdateIcon/>}
                                             onClick={() => onSelectedMember(member)}></Button>&nbsp;&nbsp;

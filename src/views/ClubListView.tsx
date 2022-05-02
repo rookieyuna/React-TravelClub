@@ -27,7 +27,7 @@ class ClubListView extends Component<any, any>{
                             <TableCell align='center'>Club Name</TableCell>
                             <TableCell align='center'>Club Intro</TableCell>
                             <TableCell align='center'>Foundation Date</TableCell>
-                            <TableCell align='center'>MemberList</TableCell>
+                            <TableCell align='center'>Membership</TableCell>
                             <TableCell align='center'>Edit</TableCell>
                         </TableRow>
                     </TableHead>

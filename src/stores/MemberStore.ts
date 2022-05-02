@@ -13,7 +13,9 @@ class MemberStore{
     _member = {
         email: '',
         name: '',
-        phoneNumber: ''
+        phoneNumber: '',
+        nickName: '',
+        birthDay: ''
     }; //email, name, phoneNumber
 
     @observable
@@ -64,7 +66,9 @@ class MemberStore{
         this._member = {
             email: '',
             name: '',
-            phoneNumber: ''
+            phoneNumber: '',
+            nickName: '',
+            birthDay: ''
         }; //업데이트 하려했던 데이터 비우기
         this._memberState = true;
     }
@@ -125,11 +129,16 @@ class MemberStore{
         if(foundMember){ //일치하는 클럽 있을경우
             foundMember.name = this._member.name; //선택된 member데이터를 현재 입력된 데이터로 변경
             foundMember.phoneNumber = this._member.phoneNumber;
+            foundMember.nickName = this._member.nickName;
+            foundMember.birthDay = this._member.birthDay;
+
 
             this._member = {
                 email: '',
                 name: '',
-                phoneNumber: ''
+                phoneNumber: '',
+                nickName: '',
+                birthDay: ''
             }; //업데이트 완료후 데이터 비우기
 
             this.setMemberStateToAdd(); //생성으로 입력창 상태값 변경
@@ -149,12 +158,6 @@ class MemberStore{
         if(foundMemberIndex > -1) {
             this._members.splice(foundMemberIndex, 1);
         }
-        //데이터 비우기
-        this._member = {
-            email: '',
-            name: '',
-            phoneNumber: ''
-        };
     }
 }
 

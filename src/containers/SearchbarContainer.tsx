@@ -5,15 +5,15 @@ import {inject, observer} from "mobx-react";
 import autobind from "autobind-decorator";
 
 
-@inject('clubStore', 'memberStore')
+@inject('clubStore', 'memberStore', 'membershipStore')
 @autobind
 @observer
 class SearchbarContainer extends Component<any> {
 
     onChangeSearchText(searchText: string){
         this.props.clubStore.setSearchText(searchText);
-        //this.props.memberStore.setSearchText(searchText);
-        //this.props.clubStore.setSearchTextMembership(searchText);
+        this.props.memberStore.setSearchText(searchText);
+        this.props.membershipStore.setSearchText(searchText);
         console.log('search'+ searchText);
     }
 
@@ -30,7 +30,9 @@ class SearchbarContainer extends Component<any> {
                 }}
                 onChange={(event)=> this.onChangeSearchText(event.target.value)}
             />
-        )}
+        )
+    }
+
 }
 
 export default SearchbarContainer;
