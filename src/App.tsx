@@ -8,6 +8,7 @@ import MemberContainer from "./containers/MemberContainer";
 import MembershipContainer from "./containers/MembershipContainer";
 import MembershipOfMemberContainer from "./containers/MembershipOfMemberContainer";
 import BoardContainer from "./containers/BoardContainer";
+import PostingContainer from "./containers/PostingContainer";
 
 
 class App extends Component {
@@ -21,6 +22,7 @@ class App extends Component {
                     <Route path="/membership/:id" element={<MembershipContainer />} />
                     <Route path="/membershipOf/:email" element={<MembershipOfMemberContainer />} />
                     <Route path="/board" element={<BoardContainer />} />
+                    <Route path="/board/:id" element={<PostingContainer />} />
                     <Route path="*" element={<EmptyPage/>} />
                 </Routes>
             </div>

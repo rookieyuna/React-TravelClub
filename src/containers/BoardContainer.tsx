@@ -1,19 +1,17 @@
 import {Component} from "react";
 import {inject, observer} from "mobx-react";
-import {Grid} from "@material-ui/core";
-import autobind from "autobind-decorator";
+import {Grid, Typography} from "@material-ui/core";
 import SearchbarContainer from "./SearchbarContainer";
 import SocialBoard from "../entity/board/SocialBoard";
 import BoardEditFormView from "../views/boardviews/BoardEditFormView";
 import BoardListView from "../views/boardviews/BoardListView";
 import TravelClub from "../entity/club/TravelClub";
-import boardStore from "../stores/BoardStore";
 
 
 @inject('boardStore', 'clubStore', 'membershipStore')
 
 @observer
-class BoardContainer extends Component<any, any>{
+class BoardContainer extends Component<any>{
 
     //input에 입력되는값 실시간으로 board 데이터에 업데이트
     onSetBoardProps(name: string,value: string){
@@ -41,6 +39,11 @@ class BoardContainer extends Component<any, any>{
         //console.log('Input name: '+ this.props.boardStore.board.name);
         //console.log('Input adminEmail: '+ this.props.boardStore.board.adminEmail);
 
+        //클럽 선택 여부 확인작업
+        if(!boardStore.board.clubId || boardStore.board.clubId.length===0){
+            alert('Please choice club!');
+            return;
+        }
         //보드이름 입력여부 확인작업
         if(!boardStore.board.name || boardStore.board.name.length===0){
             alert('Please input board name!');
@@ -115,7 +118,7 @@ class BoardContainer extends Component<any, any>{
                     />
                 </Grid>
                 <Grid item xs={9}>
-                    <SearchbarContainer />
+                    <Typography display={"inline"}>Board Name: </Typography>&nbsp;<SearchbarContainer idx = {"board"} />
                     <BoardListView
                         boards = {boards}
                         boardState = {boardState} //입력폼 생성&수정 변경위한 값

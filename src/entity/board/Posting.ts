@@ -5,19 +5,19 @@ import CommunityMember from "../club/CommunityMember";
 
 class Posting implements Entity {
     //
-    usid: string = '';
+    postingId: string = '';
+    boardId: string = '';
     title: string = '';
     writerEmail: string = '';
     contents: string = '';
     writtenDate: string = '';
     readCount: number = 0;
 
-    boardId: string = '';
     sequence: number = 0;
 
 
     constructor(postingId: string, boardId: string, title: string, writerEmail: string, contents: string) {
-        this.usid = postingId;
+        this.postingId = postingId;
         this.boardId = boardId;
         this.title = title;
         this.writerEmail = writerEmail;
@@ -26,30 +26,11 @@ class Posting implements Entity {
     }
 
     getId(): string {
-        return this.usid;
+        return this.postingId;
     }
 
     get nextCommentId(): string {
-        return `${this.usid} : ${this.sequence++}`;
-    }
-
-    static getSample(board: SocialBoard): Posting[] {
-        //
-        const postings = [];
-
-        const leader = CommunityMember.getSample();
-        const leaderPosting = new Posting(board.nextPostingId, board.getId(), 'The club intro', leader.email, 'Hello. Good to see you');
-
-        postings.push(leaderPosting);
-
-        let postingUsid = board.nextPostingId;
-        const member = CommunityMember.getSample();
-        const memberPosting = new Posting(board.nextPostingId, board.getId(), 'Self intro', member.email,'Hi I\'m Lee');
-
-        memberPosting.usid = postingUsid;
-        postings.push(memberPosting);
-
-        return postings;
+        return `${this.postingId} : ${this.sequence++}`;
     }
 }
 

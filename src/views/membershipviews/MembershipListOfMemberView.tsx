@@ -5,7 +5,7 @@ import ClubMembership from "../../entity/club/ClubMembership";
 
 
 @observer
-class MembershipListView extends Component<any, any>{
+class MembershipListView extends Component<any>{
 
 
     render() {

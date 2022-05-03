@@ -6,10 +6,11 @@ import CommunityMember from "../club/CommunityMember";
 class SocialBoard implements Entity {
     //
     clubId: string = '';
-    sequence: number = 0;
     name: string = ''
     adminEmail: string = '';
     createDate: string = '';
+
+    sequence: number = 0;
 
     constructor(clubId: string, name: string, adminEmail: string) {
         //
@@ -25,17 +26,6 @@ class SocialBoard implements Entity {
 
     get nextPostingId(): string {
         return `${this.clubId}: ${this.sequence++}`;
-    }
-
-    static getSample(club: TravelClub): SocialBoard {
-        //
-        const member = CommunityMember.getSample();
-
-        const board = new SocialBoard(club.clubId, club.name, member.email);
-
-        board.createDate = '2022.01.01';
-
-        return board;
     }
 }
 

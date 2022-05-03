@@ -24,14 +24,14 @@ yarn-error.log*
 
 
 # add
-#.idea
-#/public
-#
-#package.json
-#package-lock.json
-#README.md
-#yarn.lock
-#tsconfig.json
-#.eslintcache
-#config-overrides.js
+.idea
+/public
+
+package.json
+package-lock.json
+README.md
+yarn.lock
+tsconfig.json
+.eslintcache
+config-overrides.js
 

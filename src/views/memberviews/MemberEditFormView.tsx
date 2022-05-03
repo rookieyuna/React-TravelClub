@@ -1,13 +1,13 @@
 import {observer} from "mobx-react";
 import React, {Component} from "react";
-import {Button, Container, Paper} from "@material-ui/core";
+import {Button, Container, Input, Paper} from "@material-ui/core";
 import SaveIcon from '@material-ui/icons/Save';
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 
 
 
 @observer
-class MemberEditFormView extends Component<any, any> {
+class MemberEditFormView extends Component<any> {
 
     render() {
 
@@ -24,23 +24,23 @@ class MemberEditFormView extends Component<any, any> {
                         <label>Member Email </label>
                         {
                             memberState === true ?
-                                <input type="text" placeholder="abc@gmail.com"
+                                <Input type="text" placeholder="abc@gmail.com"
                                        value={ member && member.email ? member.email : '' }
                                        onChange={(event) => onSetMemberProps('email', event.target.value)}/>
-                                : <input type="text" placeholder="abc@gmail.com" style={{backgroundColor: "lightgray"}}
+                                : <Input type="text" placeholder="abc@gmail.com" disabled
                                          value={ member && member.email ? member.email : '' }/>
                             //업데이트 폼인경우 Email 수정 못하도록 막음(primary key 라서 수정하면 안됨)
                         }
                     </div>
                     <div className="input_area">
                         <label>Member Name </label>
-                        <input type="text" placeholder="Bob"
+                        <Input type="text" placeholder="Bob"
                                value={ member && member.name ? member.name : '' }
                                onChange={(event) => onSetMemberProps('name', event.target.value)}/>
                     </div>
                     <div className="input_area">
                         <label>Member Phone </label>
-                        <input type="text" placeholder="010-1111-1111"
+                        <Input type="text" placeholder="010-1111-1111"
                                value={ member && member.phoneNumber ? member.phoneNumber : '' }
                                onChange={(event) => onSetMemberProps('phoneNumber', event.target.value)}/>
                     </div>
@@ -49,13 +49,13 @@ class MemberEditFormView extends Component<any, any> {
                     <>
                         <div className="input_area">
                             <label>NickName </label>
-                            <input type="text" placeholder=""
+                            <Input type="text" placeholder=""
                                    value={ member && member.nickName ? member.nickName : '' }
                                    onChange={(event) => onSetMemberProps('nickName', event.target.value)}/>
                         </div>
                         <div className="input_area">
                             <label>BirthDay </label>
-                            <input type="text" placeholder="YYYY.MM.DD"
+                            <Input type="text" placeholder="YYYY.MM.DD"
                                    value={ member && member.birthDay ? member.birthDay : '' }
                                    onChange={(event) => onSetMemberProps('birthDay', event.target.value)}/>
                         </div>

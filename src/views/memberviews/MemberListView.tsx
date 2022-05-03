@@ -10,7 +10,7 @@ import CommunityMember from "../../entity/club/CommunityMember";
 
 
 @observer
-class MemberListView extends Component<any, any>{
+class MemberListView extends Component<any>{
 
 
     render() {

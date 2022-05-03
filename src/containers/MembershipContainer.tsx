@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import {inject, observer} from "mobx-react";
-import {Grid} from "@material-ui/core";
-import autobind from "autobind-decorator";
+import {Grid, Typography} from "@material-ui/core";
 import SearchbarContainer from "./SearchbarContainer";
 import MembershipEditFormView from "../views/membershipviews/MembershipEditFormView";
 import MembershipListView from "../views/membershipviews/MembershipListView";
@@ -9,10 +8,9 @@ import ClubMembership from "../entity/club/ClubMembership";
 import RoleInClub from "../entity/club/RoleInClub";
 
 
-
 @inject('clubStore', 'memberStore', 'membershipStore')
 @observer
-class MembershipContainer extends Component<any, any>{
+class MembershipContainer extends Component<any>{
 
     //input에 입력되는값 실시간으로 membership 데이터에 업데이트
     onSetMembershipProps(name: string,value: string){
@@ -80,16 +78,17 @@ class MembershipContainer extends Component<any, any>{
 
     render() {
 
-        let { membership, memberships, membershipState, searchText, paramId } = this.props.membershipStore
+        let { membership, memberships, membershipState, searchText } = this.props.membershipStore
 
-        paramId  = window.location.pathname.split('/')[2]; //파라미터 저장
+        let paramId  = window.location.pathname.split('/')[2]; //파라미터 저장
+        let clubName = this.props.clubStore.retrieve(paramId).name;
 
         //검색
         memberships = memberships.filter((searchMembership: ClubMembership) => searchMembership.memberEmail.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)
 
         return (
         <>
-            <h1>Membership for Club {paramId}</h1>
+            <h1>Membership for Club Name "{clubName}"</h1>
             <Grid container spacing={2}>
                 <Grid item xs={3}>
                     <MembershipEditFormView
@@ -103,7 +102,7 @@ class MembershipContainer extends Component<any, any>{
                     />
                 </Grid>
                 <Grid item xs={9}>
-                    <SearchbarContainer />
+                    <Typography display={"inline"}>Member Email: </Typography>&nbsp;<SearchbarContainer idx = {"membership"} />
                     <MembershipListView
                         memberships = {memberships}
                         membershipState = {membershipState} //입력폼 생성&수정 변경위한 값

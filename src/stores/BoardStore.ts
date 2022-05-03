@@ -10,7 +10,7 @@ class BoardStore{
 
     @observable
     _board = {
-        clubId: '1',
+        clubId: '',
         name: '',
         adminEmail: ''
         //createDate

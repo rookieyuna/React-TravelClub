@@ -10,7 +10,7 @@ import TravelClub from "../../entity/club/TravelClub";
 
 
 @observer
-class ClubListView extends Component<any, any>{
+class ClubListView extends Component<any>{
 
 
     render() {

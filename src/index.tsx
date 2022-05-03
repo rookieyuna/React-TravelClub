@@ -9,14 +9,16 @@ import MemberStore from "./stores/MemberStore";
 import ClubStore from "./stores/ClubStore";
 import MembershipStore from "./stores/MembershipStore";
 import BoardStore from "./stores/BoardStore";
+import PostingStore from "./stores/PostingStore";
 
 ReactDOM.render(
 
-    <Provider clubStore={ClubStore} memberStore={MemberStore} membershipStore={MembershipStore} boardStore={BoardStore}>
+    <Provider clubStore={ClubStore} memberStore={MemberStore} membershipStore={MembershipStore}
+              boardStore={BoardStore} postingStore={PostingStore}>
         <BrowserRouter>
-            <React.StrictMode>
+            {/*<React.StrictMode>*/}
                 <App />
-            </React.StrictMode>
+            {/*</React.StrictMode>*/}
         </BrowserRouter>
     </Provider>,
     document.getElementById("root")

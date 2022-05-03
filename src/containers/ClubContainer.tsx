@@ -1,9 +1,8 @@
 import {Component} from "react";
 import {inject, observer} from "mobx-react";
 import ClubListView from "../views/clubviews/ClubListView";
-import {Grid} from "@material-ui/core";
+import {Grid, Typography} from "@material-ui/core";
 import ClubEditFormView from "../views/clubviews/ClubEditFormView";
-import autobind from "autobind-decorator";
 import clubStore from "../stores/ClubStore";
 import TravelClub from "../entity/club/TravelClub";
 import SearchbarContainer from "./SearchbarContainer";
@@ -11,7 +10,7 @@ import SearchbarContainer from "./SearchbarContainer";
 
 @inject('clubStore')
 @observer
-class ClubContainer extends Component<any, any>{
+class ClubContainer extends Component<any>{
 
     //input에 입력되는값 실시간으로 club 데이터에 업데이트
     onSetClubProps(name: string,value: string){
@@ -95,7 +94,7 @@ class ClubContainer extends Component<any, any>{
                     />
                 </Grid>
                 <Grid item xs={9}>
-                    <SearchbarContainer />
+                    <Typography display={"inline"}>Club Name: </Typography>&nbsp;<SearchbarContainer idx = {"club"}/>
                     <ClubListView
                         clubs = {clubs}
                         clubState = {clubState} //입력폼 생성&수정 변경위한 값

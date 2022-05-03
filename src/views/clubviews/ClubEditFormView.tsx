@@ -1,13 +1,13 @@
 import {observer} from "mobx-react";
 import React, {Component} from "react";
-import {Button, Container, Paper} from "@material-ui/core";
+import {Button, Container, Input, Paper} from "@material-ui/core";
 import SaveIcon from '@material-ui/icons/Save';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import autobind from "autobind-decorator";
 
 
 @observer
-class ClubEditFormView extends Component<any, any> {
+class ClubEditFormView extends Component<any> {
 
     render() {
 
@@ -22,13 +22,13 @@ class ClubEditFormView extends Component<any, any> {
                 <form>
                     <div className="input_area">
                         <label>Club Name </label>
-                        <input type="text" placeholder="ABC Club" id="clubName"
+                        <Input type="text" placeholder="ABC Club" id="clubName"
                                value={ club && club.name ? club.name : '' }
                                onChange={(event) => onSetClubProps('name', event.target.value)}/>
                     </div>
                     <div className="input_area">
                         <label>Club Intro </label>
-                        <input type="text" placeholder="Hello, Welcome"
+                        <Input type="text" placeholder="Hello, Welcome"
                                value={ club && club.intro ? club.intro : '' }
                                onChange={(event) => onSetClubProps('intro', event.target.value)}/>
                     </div>

@@ -9,7 +9,7 @@ import SocialBoard from "../../entity/board/SocialBoard";
 
 
 @observer
-class BoardListView extends Component<any, any>{
+class BoardListView extends Component<any>{
 
 
     render() {
@@ -39,7 +39,7 @@ class BoardListView extends Component<any, any>{
                                 <TableCell align='center'>{board.name}</TableCell>
                                 <TableCell align='center'>{board.adminEmail}</TableCell>
                                 <TableCell align='center'>{board.createDate}</TableCell>
-                                <TableCell align='center'><Link to={`/membership/${board.clubId}`}><ListAltIcon/></Link></TableCell>
+                                <TableCell align='center'><Link to={`/board/${board.clubId}`}><ListAltIcon/></Link></TableCell>
                                 <TableCell align='center'>
                                     <Button variant='contained' color='default' startIcon={<UpdateIcon/>}
                                             onClick={() => onSelectedBoard(board)}></Button>&nbsp;&nbsp;

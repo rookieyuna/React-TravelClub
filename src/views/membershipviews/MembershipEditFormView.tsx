@@ -1,13 +1,13 @@
 import {observer} from "mobx-react";
 import React, {Component} from "react";
-import {Button, Container, Paper} from "@material-ui/core";
+import {Button, Container, Input, Paper} from "@material-ui/core";
 import SaveIcon from '@material-ui/icons/Save';
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 
 
 
 @observer
-class MembershipEditFormView extends Component<any, any> {
+class MembershipEditFormView extends Component<any> {
 
     render() {
 
@@ -26,11 +26,11 @@ class MembershipEditFormView extends Component<any, any> {
                         <label>Member Email </label>
                         {
                             membershipState === true ?
-                                <input type="text" placeholder="abc@gmail.com"
+                                <Input type="text" placeholder="abc@gmail.com"
                                        value={ membership && membership.memberEmail ? membership.memberEmail : '' }
                                        onChange={(event) => onSetMembershipProps('memberEmail', event.target.value)}/>
                                 :
-                                <input type="text" placeholder="abc@gmail.com" style={{backgroundColor: "lightgray"}}
+                                <Input type="text" placeholder="abc@gmail.com" disabled
                                          value={ membership && membership.memberEmail ? membership.memberEmail : '' }/>
                             //업데이트 폼인경우 Email 수정 못하도록 막음(수정하면 안됨)
                         }
@@ -41,7 +41,7 @@ class MembershipEditFormView extends Component<any, any> {
                             <>
                                 <div className="input_area">
                                     <label>Member Role </label>
-                                    <input type="text" placeholder="President | Member"
+                                    <Input type="text" placeholder="President | Member"
                                            value={ membership && membership.role ? membership.role : '' }
                                            onChange={(event) => onSetMembershipProps('role', event.target.value)}/>
                                 </div>

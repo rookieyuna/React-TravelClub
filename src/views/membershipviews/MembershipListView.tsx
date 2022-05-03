@@ -7,7 +7,7 @@ import ClubMembership from "../../entity/club/ClubMembership";
 
 
 @observer
-class MembershipListView extends Component<any, any>{
+class MembershipListView extends Component<any>{
 
 
     render() {
@@ -22,8 +22,7 @@ class MembershipListView extends Component<any, any>{
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell align='center'>Club Id</TableCell>
-                            <TableCell align='center'>Email</TableCell>
+                            <TableCell align='center'>Member Email</TableCell>
                             <TableCell align='center'>Role</TableCell>
                             <TableCell align='center'>Join Date</TableCell>
                             <TableCell align='center'>Edit</TableCell>
@@ -34,7 +33,6 @@ class MembershipListView extends Component<any, any>{
                     Array.isArray(newLists) && newLists.length ?
                         newLists.map( (membership: ClubMembership ) => (
                             <TableRow key={membership.memberEmail} hover >
-                                <TableCell align='center'>{membership.clubId}</TableCell>
                                 <TableCell align='center'>{membership.memberEmail}</TableCell>
                                 <TableCell align='center'>{membership.role}</TableCell>
                                 <TableCell align='center'>{membership.joinDate}</TableCell>

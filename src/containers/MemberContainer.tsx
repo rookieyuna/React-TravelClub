@@ -1,7 +1,6 @@
 import {Component} from "react";
 import {inject, observer} from "mobx-react";
-import {Grid} from "@material-ui/core";
-import autobind from "autobind-decorator";
+import {Grid, Typography} from "@material-ui/core";
 import SearchbarContainer from "./SearchbarContainer";
 import CommunityMember from "../entity/club/CommunityMember";
 import MemberEditFormView from "../views/memberviews/MemberEditFormView";
@@ -11,7 +10,7 @@ import MemberListView from "../views/memberviews/MemberListView";
 @inject('memberStore')
 
 @observer
-class MemberContainer extends Component<any, any>{
+class MemberContainer extends Component<any>{
 
     //input에 입력되는값 실시간으로 member 데이터에 업데이트
     onSetMemberProps(name: string,value: string){
@@ -86,7 +85,7 @@ class MemberContainer extends Component<any, any>{
                     />
                 </Grid>
                 <Grid item xs={9}>
-                    <SearchbarContainer />
+                    <Typography display={"inline"}>Member Email: </Typography>&nbsp;<SearchbarContainer idx={"member"} />
                     <MemberListView
                         members = {members}
                         memberState = {memberState} //입력폼 생성&수정 변경위한 값
