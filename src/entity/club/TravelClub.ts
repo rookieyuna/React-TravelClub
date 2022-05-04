@@ -64,20 +64,6 @@ class TravelClub implements AutoIdEntity{
         }
         this.intro = intro;
     }
-
-    static getSample(keyIncluded: boolean):TravelClub {
-        //
-        const name = 'namoosori club';
-        const intro = 'Welcome to namoosori club.';
-        const club = new TravelClub(name, intro);
-
-        if (keyIncluded) {
-            const sequence = 21;
-
-            club.setAutoId(sequence.toString());
-        }
-        return club;
-    }
 }
 
 export default TravelClub;

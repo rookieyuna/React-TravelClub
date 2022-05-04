@@ -62,22 +62,21 @@ class BoardStore{
 
     //입력폼 생성/수정 상태값 변경
     @action
-    setBoardStateToAdd(): void{
-        this._boardState = true;
+    setBoardState(mode: boolean): void{
 
-        this._board = {
-            clubId: '',
-            name: '',
-            adminEmail: ''
-        }; //업데이트 하려고했던 데이터 비우기
+        this._boardState = mode;
+
+        if(mode === true){
+            this._board = {
+                clubId: '',
+                name: '',
+                adminEmail: ''
+            }; //업데이트 하려고했던 데이터 비우기
+        }
     }
 
-    @action
-    setBoardStateToUpdate(): void{
-        this._boardState = false;
-    }
-
-    /************************************************/
+    /***************************************
+     ***************************************/
 
     //boards 목록에 board 데이터 SocialBoard 타입으로 저장
     @action
@@ -117,7 +116,7 @@ class BoardStore{
         this._board.name = board.name;
         this._board.adminEmail = board.adminEmail;
 
-        this.setBoardStateToUpdate();
+        this.setBoardState(false);
     }
 
     //선택된 SocialBoard 데이터 값을 입력된 값으로 업데이트 하기
@@ -129,14 +128,7 @@ class BoardStore{
             foundBoard.name = this._board.name; //선택된 board데이터를 현재 입력된 데이터로 변경
             foundBoard.adminEmail = this._board.adminEmail;
 
-            this._board = {
-                clubId: '',
-                name: '',
-                adminEmail: ''
-
-            }; //업데이트 완료후 데이터 비우기
-
-            this.setBoardStateToAdd(); //생성으로 입력창 상태값 변경
+            this.setBoardState(true); //생성으로 입력창 상태값 변경
 
             //데이터가 업데이트되어도 List는 변경되는 데이터가 없어서 렌더링안됨(boardState 값을 보내서 해결)
         }

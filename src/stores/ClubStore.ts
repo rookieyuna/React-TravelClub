@@ -1,6 +1,12 @@
 import {observable, makeObservable, computed, toJS, action} from 'mobx';
 import TravelClub from "../entity/club/TravelClub"
 
+export interface IClub {
+    clubId: string,
+    name: string,
+    intro: string
+}
+
 class ClubStore{
 
     //몹엑스6에서 필요한 부분(데코레이터 사용을 위해)
@@ -9,13 +15,12 @@ class ClubStore{
     }
 
     @observable
-    _club = {
+    _club: IClub = {
         clubId: '',
         name: '',
         intro: ''
         //foundationDate
-
-    }; //id, name, intro
+    }; //clubId, name, intro
 
     @observable
      _clubs: TravelClub[] = [];
@@ -62,19 +67,16 @@ class ClubStore{
 
     //입력폼 생성/수정 상태값 변경
     @action
-    setClubStateToAdd(): void{
-        this._clubState = true;
+    setClubState(mode: boolean): void{
+        this._clubState = mode;
 
-        this._club = {
-            clubId: '',
-            name: '',
-            intro: ''
-        }; //업데이트 하려고했던 데이터 비우기
-    }
-
-    @action
-    setClubStateToUpdate(): void{
-        this._clubState = false;
+        if(mode===true){
+            this._club = {
+                clubId: '',
+                name: '',
+                intro: ''
+            }; //업데이트 하려고했던 데이터 비우기
+        }
     }
 
     /************************************************/
@@ -120,7 +122,7 @@ class ClubStore{
         this._club.name = club.name;
         this._club.intro = club.intro;
 
-        this.setClubStateToUpdate()
+        this.setClubState(false);
     }
 
     //선택된 TravelClub 데이터 값을 입력된 값으로 업데이트 하기
@@ -132,14 +134,7 @@ class ClubStore{
             foundClub.name = this._club.name; //선택된 club데이터를 현재 입력된 데이터로 변경
             foundClub.intro = this._club.intro;
 
-            this._club = {
-                clubId: '',
-                name: '',
-                intro: ''
-
-            }; //업데이트 완료후 데이터 비우기
-
-            this.setClubStateToAdd(); //생성으로 입력창 상태값 변경
+            this.setClubState(true); //생성으로 입력창 상태값 변경
 
             //데이터가 업데이트되어도 List는 변경되는 데이터가 없어서 렌더링안됨(clubState 값을 보내서 해결)
         }

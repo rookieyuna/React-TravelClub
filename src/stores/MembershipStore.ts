@@ -65,19 +65,15 @@ class MembershipStore{
 
     //입력폼 생성/수정 상태값 변경
     @action
-    setMembershipStateToAdd(): void{
-        this._membershipState = true;
-
-        this._membership = {
-            clubId: '',
-            memberEmail: '',
-            role: ''
-        }; //업데이트 하려고했던 데이터 비우기
-    }
-
-    @action
-    setMembershipStateToUpdate(): void{
-        this._membershipState = false;
+    setMembershipState(mode:boolean): void{
+        this._membershipState = mode;
+        if(mode === true){
+            this._membership = {
+                clubId: '',
+                memberEmail: '',
+                role: ''
+            }; //업데이트 하려고했던 데이터 비우기
+        }
     }
 
 
@@ -101,12 +97,6 @@ class MembershipStore{
         }; //등록 완료후 데이터 비우기
     };
 
-
-    //clubId로 ClubMembership 찾기 (멤버쉽 리스트 반환)
-    retrieveByClubId = (clubId: string):ClubMembership[] | null => {
-        let foundMembership = this._memberships.filter((membership)=> membership.clubId === clubId);
-        return foundMembership || null;
-    };
     //memberEmail 로 ClubMembership 찾기 (멤버쉽 리스트 반환)
     retrieveByEmail = (memberEmail: string):ClubMembership[] | null => {
         let foundMembership= this._memberships.filter((membership)=> membership.memberEmail === memberEmail);
@@ -128,7 +118,8 @@ class MembershipStore{
         this._membership.clubId = membership.clubId;
         this._membership.memberEmail = membership.memberEmail;
         this._membership.role = membership.role;
-        this.setMembershipStateToUpdate()
+
+        this.setMembershipState(false);
     }
 
     //선택된 ClubMembership 데이터 변경 메서드
@@ -137,16 +128,9 @@ class MembershipStore{
         let foundMembership = this.getMembership(this._membership.clubId, this._membership.memberEmail);
 
         if(foundMembership){ //일치하는 클럽 있을경우
+            foundMembership.role = this._membership.role as RoleInClub; //선택된 member role을 현재 입력된 데이터로 변경
 
-            foundMembership.role = this._membership.role as RoleInClub; //선택된 club데이터를 현재 입력된 데이터로 변경
-
-            this._membership = {
-                clubId: '',
-                memberEmail: '',
-                role: '',
-            }; //업데이트 완료후 데이터 비우기
-
-            this.setMembershipStateToAdd(); //생성으로 입력창 상태값 변경
+            this.setMembershipState(true); //생성으로 입력창 상태값 변경
 
             //데이터가 업데이트되어도 List는 변경되는 데이터가 없어서 렌더링안됨(clubState 값을 보내서 해결)
         }

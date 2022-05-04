@@ -11,7 +11,7 @@ class MembershipEditFormView extends Component<any> {
 
     render() {
 
-        const { membership, membershipState, onSetMembershipProps, onSetMembershipStateToAdd, onAddMembership, onUpdateMembership } = this.props;  //컨테이너에서 받아온 프롭스
+        const { membership, membershipState, onSetMembershipProps, onSetMembershipState, onAddMembership, onUpdateMembership } = this.props;  //컨테이너에서 받아온 프롭스
 
         let paramId  = window.location.pathname.split('/')[2]; //파라미터 저장
 
@@ -57,7 +57,7 @@ class MembershipEditFormView extends Component<any> {
                                   onClick={onUpdateMembership}>Update</Button>
                             <br/><br/>
                             <Button variant='contained' color='primary' startIcon={<KeyboardReturnIcon />}
-                                  onClick={onSetMembershipStateToAdd}>Back to Add</Button>
+                                  onClick={()=>onSetMembershipState(true)}>Back to Add</Button>
                         </>
                         //nowState 값이 true인경우 생성버튼으로 add수행하고 false인 경우 Updatd버튼으로 업데이트 수행
                     }

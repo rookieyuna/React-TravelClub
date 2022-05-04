@@ -25,7 +25,7 @@ class PostingWriteView extends Component<any>{
 
         return (
             <form method="post" onSubmit={(e: any)=>{
-                //submit이벤트 발생시 화면 새로고침 방지
+                //submit이벤트 발생시 화면 새로고침 방지 //React.FormEvent<HTMLFormElement>
                 e.preventDefault();
 
                 onSetPostingProps('title', e.target.title.value);
@@ -67,12 +67,11 @@ class PostingWriteView extends Component<any>{
                 </TableContainer>
                 <br/>
                 <div>
-
                     <Button variant='contained' color='primary' startIcon={<SaveIcon/>}
                             type='submit'>Save</Button>&nbsp;&nbsp;
                     <Button variant='contained' color='default' startIcon={<UpdateIcon/>}
                             type='reset'>Reset</Button>&nbsp;&nbsp;
-                    <Button variant='contained' color='default' startIcon={<ListAltIcon/>}
+                    <Button variant='outlined' color='default' startIcon={<ListAltIcon/>}
                             onClick={()=>onSetPostingState("list")}>List</Button>
                 </div>
             </form>

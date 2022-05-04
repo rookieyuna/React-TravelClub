@@ -62,20 +62,19 @@ class MemberStore{
 
     //입력폼 생성/수정 상태값 변경
     @action
-    setMemberStateToAdd(): void{
-        this._member = {
-            email: '',
-            name: '',
-            phoneNumber: '',
-            nickName: '',
-            birthDay: ''
-        }; //업데이트 하려했던 데이터 비우기
-        this._memberState = true;
-    }
+    setMemberState(mode: boolean): void{
 
-    @action
-    setMemberStateToUpdate(): void{
-        this._memberState = false;
+        this._memberState = mode;
+
+        if(mode === true){
+            this._member = {
+                email: '',
+                name: '',
+                phoneNumber: '',
+                nickName: '',
+                birthDay: ''
+            }; //업데이트 하려했던 데이터 비우기
+        }
     }
 
     /************************************************/
@@ -117,7 +116,7 @@ class MemberStore{
         this._member.name = member.name;
         this._member.phoneNumber = member.phoneNumber;
 
-        this.setMemberStateToUpdate()
+        this.setMemberState(false); //업데이트로 입력창 변경
     }
 
     //email로 CommunityMember 찾기
@@ -139,16 +138,7 @@ class MemberStore{
             foundMember.nickName = this._member.nickName;
             foundMember.birthDay = this._member.birthDay;
 
-
-            this._member = {
-                email: '',
-                name: '',
-                phoneNumber: '',
-                nickName: '',
-                birthDay: ''
-            }; //업데이트 완료후 데이터 비우기
-
-            this.setMemberStateToAdd(); //생성으로 입력창 상태값 변경
+            this.setMemberState(true); //생성으로 입력창 상태값 변경
 
             //데이터가 업데이트되어도 List는 변경되는 데이터가 없어서 렌더링안됨(MemberState 값을 보내서 해결)
         }

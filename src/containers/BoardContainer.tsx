@@ -23,8 +23,8 @@ class BoardContainer extends Component<any>{
     }
 
     //업데이트 폼에서 등록버튼으로 돌아가기 위한 설정
-    onSetBoardStateToAdd(){
-        this.props.boardStore.setBoardStateToAdd();
+    onSetBoardState(mode: boolean){
+        this.props.boardStore.setBoardState(mode);
     }
 
     //클럽id로 TravelClub데이터 찾기
@@ -111,7 +111,7 @@ class BoardContainer extends Component<any>{
                         board = {board}
                         boardState = {boardState} //입력폼 생성&수정 변경위한 값
                         onSetBoardProps = {this.onSetBoardProps.bind(this)}
-                        onSetBoardStateToAdd = {this.onSetBoardStateToAdd.bind(this)}
+                        onSetBoardState = {this.onSetBoardState.bind(this)}
                         onAddBoard = {this.onAddBoard.bind(this)}
                         onUpdateBoard = {this.onUpdateBoard.bind(this)}
                         onFindClub = {this.onFindClub.bind(this)}//클럽이름 찾기위한 함수 전달

@@ -24,16 +24,6 @@ class CommunityMember implements Entity {
         return this.email;
     }
 
-    static getSample(): CommunityMember {
-        //
-        const member = new CommunityMember('namoosori@test..co.kr', 'Lee', '010-0001-1111');
-
-        member.nickName = 'Mr.Lee';
-        member.birthDay = '2000.01.01';
-        member.addresses.push(Address.getHomeAddressSample());
-
-        return member;
-    }
 }
 
 export default CommunityMember;

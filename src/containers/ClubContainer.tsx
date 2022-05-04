@@ -3,14 +3,14 @@ import {inject, observer} from "mobx-react";
 import ClubListView from "../views/clubviews/ClubListView";
 import {Grid, Typography} from "@material-ui/core";
 import ClubEditFormView from "../views/clubviews/ClubEditFormView";
-import clubStore from "../stores/ClubStore";
+import clubStore, {IClub} from "../stores/ClubStore";
 import TravelClub from "../entity/club/TravelClub";
 import SearchbarContainer from "./SearchbarContainer";
 
 
 @inject('clubStore')
 @observer
-class ClubContainer extends Component<any>{
+class ClubContainer extends Component<any> {
 
     //input에 입력되는값 실시간으로 club 데이터에 업데이트
     onSetClubProps(name: string,value: string){
@@ -22,8 +22,8 @@ class ClubContainer extends Component<any>{
     }
 
     //업데이트 폼에서 등록버튼으로 돌아가기 위한 설정
-    onSetClubStateToAdd(){
-        this.props.clubStore.setClubStateToAdd();
+    onSetClubState(mode:boolean){
+        this.props.clubStore.setClubState(mode);
     }
 
     onAddClub(): void{
@@ -72,7 +72,6 @@ class ClubContainer extends Component<any>{
     }
 
 
-
     render() {
 
         let { club, clubs, clubState, searchText } = this.props.clubStore;
@@ -88,7 +87,7 @@ class ClubContainer extends Component<any>{
                         club = {club}
                         clubState = {clubState} //입력폼 생성&수정 변경위한 값
                         onSetClubProps = {this.onSetClubProps.bind(this)}
-                        onSetClubStateToAdd = {this.onSetClubStateToAdd.bind(this)}
+                        onSetClubState = {this.onSetClubState.bind(this)}
                         onAddClub = {this.onAddClub.bind(this)}
                         onUpdateClub = {this.onUpdateClub.bind(this)}
                     />

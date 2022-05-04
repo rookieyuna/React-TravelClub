@@ -1,6 +1,6 @@
 import {Component} from "react";
 import {inject, observer} from "mobx-react";
-import {Grid, Typography} from "@material-ui/core";
+import {Grid} from "@material-ui/core";
 import SearchbarContainer from "./SearchbarContainer";
 import SocialBoard from "../entity/board/SocialBoard";
 import boardStore from "../stores/BoardStore";
@@ -9,6 +9,7 @@ import PostingDetailView from "../views/postingviews/PostingDetailView";
 import Posting from "../entity/board/Posting";
 import PostingWriteView from "../views/postingviews/PostingWriteView";
 import PostingEditView from "../views/postingviews/PostingEditView";
+import CommentContainer from "./CommentContainer";
 
 
 @inject('boardStore', 'postingStore')
@@ -100,24 +101,9 @@ class PostingContainer extends Component<any>{
                     <PostingListView
                         postings = {postings}
                         postingState = {postingState} //입력폼 생성&수정 변경위한 값
-                        onSelectPosting = {this.onSelectedPosting.bind(this)} //인풋태그 업데이트용 프롭스로 전달
                         onSetPostingState = {this.onSetPostingState.bind(this)}
-                        onSelectedPosting = {this.onSelectedPosting.bind(this)}
+                        onSelectedPosting = {this.onSelectedPosting.bind(this)}//인풋태그 업데이트용 프롭스로 전달
                         onReadCountAdd = {this.onReadCountAdd.bind(this)} // 조회수 증가시켜주는 함수
-                    />
-                </Grid>
-        }
-
-        // posting write 컴포넌트
-        else if(postingState==="write"){
-            _article =
-                <Grid item xs={10}>
-                    <PostingWriteView
-                        posting = {posting}
-                        postingState = {postingState} //입력폼 생성&수정 변경위한 값
-                        onSetPostingProps = {this.onSetPostingProps.bind(this)}
-                        onSetPostingState = {this.onSetPostingState.bind(this)}
-                        onAddPosting = {this.onAddPosting.bind(this)}
                     />
                 </Grid>
         }
@@ -128,11 +114,23 @@ class PostingContainer extends Component<any>{
                 <Grid item xs={10}>
                     <PostingDetailView
                         posting = {posting}
-                        postingState = {postingState} //입력폼 생성&수정 변경위한 값
+                        onSetPostingState = {this.onSetPostingState.bind(this)}
+                        onRemovePosting = {this.onRemovePosting.bind(this)}
+                    />
+                    <br/>
+                    <h3>Comment</h3>
+                    <CommentContainer/>
+                </Grid>
+        }
+
+        // posting write 컴포넌트
+        else if(postingState==="write"){
+            _article =
+                <Grid item xs={10}>
+                    <PostingWriteView
                         onSetPostingProps = {this.onSetPostingProps.bind(this)}
                         onSetPostingState = {this.onSetPostingState.bind(this)}
                         onAddPosting = {this.onAddPosting.bind(this)}
-                        onRemovePosting = {this.onRemovePosting.bind(this)}
                     />
                 </Grid>
         }

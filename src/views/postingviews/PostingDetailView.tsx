@@ -19,7 +19,7 @@ class PostingDetailView extends Component<any>{
 
     render() {
 
-        const {posting, onSetPostingProps, onSetPostingState, onRemovePosting} = this.props;
+        const {posting, onSetPostingState, onRemovePosting} = this.props;
 
         return (
             <>
@@ -40,7 +40,7 @@ class PostingDetailView extends Component<any>{
                             </TableRow>
                             <TableRow>
                                 <TableCell align='center'>Contents</TableCell>
-                                <TableCell >
+                                <TableCell>
                                     {posting.contents}
                                 </TableCell>
                             </TableRow>
@@ -53,7 +53,7 @@ class PostingDetailView extends Component<any>{
                             onClick={() => onSetPostingState("edit")}>Modify</Button>&nbsp;&nbsp;
                     <Button variant='contained' color='secondary' startIcon={<DeleteIcon/>}
                             onClick={() => {onRemovePosting(posting.postingId); onSetPostingState("list")}}>Delete</Button>&nbsp;&nbsp;
-                    <Button variant='contained' color='default' startIcon={<ListAltIcon/>}
+                    <Button variant='outlined' color='default' startIcon={<ListAltIcon/>}
                             onClick={() => onSetPostingState("list")}>List</Button>
                 </div>
             </>

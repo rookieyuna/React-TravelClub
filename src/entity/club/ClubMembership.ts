@@ -17,15 +17,6 @@ class ClubMembership {
 
         this.joinDate = DateUtil.today();
     }
-
-    static getSample(club: TravelClub, member: CommunityMember): ClubMembership {
-        //
-        const membership = new ClubMembership(club.getId(), member.email);
-
-        membership.role = RoleInClub.Member;
-
-        return membership;
-    }
 }
 
 export default ClubMembership;

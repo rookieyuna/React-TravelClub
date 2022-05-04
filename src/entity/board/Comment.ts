@@ -3,15 +3,18 @@ import Entity from "../Entity";
 
 class Comment implements Entity {
     //
-    usid: string = '';
+    commentId: string = '';
+    postingId: string = '';
     writer: string = '';
     contents: string = '';
-    writtenDate: string = '';
+    writtenDate: string = ''
 
-    postingId: string = '';
+    editMode: boolean = false;
+
+
 
     constructor(commentId: string, postingId: string, writer: string, contents: string) {
-        this.usid = commentId;
+        this.commentId = commentId;
         this.postingId = postingId;
         this.writer = writer;
         this.contents = contents;
@@ -19,7 +22,7 @@ class Comment implements Entity {
     }
 
     getId(): string {
-        return this.usid;
+        return this.commentId;
     }
 }
 

@@ -13,13 +13,6 @@ const TodoList = observer(() => {
     return (
         <>
             <h2>mobx todo</h2>
-            <Button
-                color="primary"
-                variant="contained"
-                onClick={() => setModalNewTodo(true)}
-            >
-                Add new
-            </Button>
 
             {todoStore.incompleteTodos.length === 0 && <p>Nothing to do!</p>}
             {todoStore.incompleteTodos.map(todo => {

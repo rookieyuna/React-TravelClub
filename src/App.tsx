@@ -10,7 +10,6 @@ import MembershipOfMemberContainer from "./containers/MembershipOfMemberContaine
 import BoardContainer from "./containers/BoardContainer";
 import PostingContainer from "./containers/PostingContainer";
 
-
 class App extends Component {
     render(){
         return (
@@ -23,6 +22,7 @@ class App extends Component {
                     <Route path="/membershipOf/:email" element={<MembershipOfMemberContainer />} />
                     <Route path="/board" element={<BoardContainer />} />
                     <Route path="/board/:id" element={<PostingContainer />} />
+                    <Route path="/board/:id/:pId" element={<PostingContainer />} />
                     <Route path="*" element={<EmptyPage/>} />
                 </Routes>
             </div>

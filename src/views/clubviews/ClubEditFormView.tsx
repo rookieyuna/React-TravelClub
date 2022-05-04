@@ -11,10 +11,10 @@ class ClubEditFormView extends Component<any> {
 
     render() {
 
-        const { club, clubState, onSetClubProps, onSetClubStateToAdd, onAddClub, onUpdateClub } = this.props;  //컨테이너에서 받아온 프롭스
+        const { club, clubState, onSetClubProps, onSetClubState, onAddClub, onUpdateClub } = this.props;  //컨테이너에서 받아온 프롭스
 
         return (
-            <Container  component={Paper}>
+            <Container component={Paper}>
                 {
                     clubState === true ? <h2>New Club Register</h2> : <h2>Club Id "{club.clubId}" Update</h2>
                     //nowState값이 true인경우 생성폼이고 false인 경우 update폼
@@ -42,7 +42,7 @@ class ClubEditFormView extends Component<any> {
                                   onClick={onUpdateClub}>Update</Button>
                                 <br/><br/>
                             <Button variant='contained' color='primary' startIcon={<KeyboardReturnIcon />}
-                                onClick={onSetClubStateToAdd}>Back to Add</Button></>
+                                onClick={()=>onSetClubState(true)}>Back to Add</Button></>
                         //nowState 값이 true인경우 생성버튼으로 add수행하고 false인 경우 Updatd버튼으로 업데이트 수행
                     }
                     <br/><br/>

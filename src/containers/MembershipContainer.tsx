@@ -22,8 +22,8 @@ class MembershipContainer extends Component<any>{
     }
 
     //업데이트 폼에서 등록버튼으로 돌아가기 위한 설정
-    onSetMembershipStateToAdd(){
-        this.props.membershipStore.setMembershipStateToAdd();
+    onSetMembershipState(mode: boolean){
+        this.props.membershipStore.setMembershipState(mode);
     }
 
     onAddMembership(paramId: string): void{
@@ -96,7 +96,7 @@ class MembershipContainer extends Component<any>{
                         membership = {membership}
                         membershipState = {membershipState} //입력폼 생성&수정 변경위한 값
                         onSetMembershipProps = {this.onSetMembershipProps.bind(this)}
-                        onSetMembershipStateToAdd = {this.onSetMembershipStateToAdd.bind(this)}
+                        onSetMembershipState = {this.onSetMembershipState.bind(this)}
                         onAddMembership = {this.onAddMembership.bind(this)}
                         onUpdateMembership = {this.onUpdateMembership.bind(this)}
                     />

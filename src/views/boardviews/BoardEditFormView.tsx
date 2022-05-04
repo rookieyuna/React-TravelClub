@@ -12,7 +12,7 @@ class BoardEditFormView extends Component<any> {
 
     render() {
 
-        const {board, boardState, onSetBoardProps, onSetBoardStateToAdd, onAddBoard, onUpdateBoard, onFindClub } = this.props;  //컨테이너에서 받아온 프롭스
+        const {board, boardState, onSetBoardProps, onSetBoardState, onAddBoard, onUpdateBoard, onFindClub } = this.props;  //컨테이너에서 받아온 프롭스
 
         let clubList: TravelClub[] = this.props.clubs;
         //console.log(clubList);
@@ -65,7 +65,7 @@ class BoardEditFormView extends Component<any> {
                                   onClick={onUpdateBoard}>Update</Button>
                                 <br/><br/>
                             <Button variant='contained' color='primary' startIcon={<KeyboardReturnIcon />}
-                                onClick={onSetBoardStateToAdd}>Back to Add</Button></>
+                                onClick={()=>onSetBoardState(true)}>Back to Add</Button></>
                         //nowState 값이 true인경우 생성버튼으로 add수행하고 false인 경우 Updatd버튼으로 업데이트 수행
                     }
                     <br/><br/>

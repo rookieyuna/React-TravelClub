@@ -11,7 +11,7 @@ class MemberEditFormView extends Component<any> {
 
     render() {
 
-        const { member, memberState, onSetMemberProps, onSetMemberStateToAdd, onAddMember, onUpdateMember } = this.props;  //컨테이너에서 받아온 프롭스
+        const { member, memberState, onSetMemberProps, onSetMemberState, onAddMember, onUpdateMember } = this.props;  //컨테이너에서 받아온 프롭스
 
         return (
             <Container  component={Paper}>
@@ -71,7 +71,7 @@ class MemberEditFormView extends Component<any> {
                                   onClick={onUpdateMember}>Update</Button>
                             <br/><br/>
                             <Button variant='contained' color='primary' startIcon={<KeyboardReturnIcon />}
-                                  onClick={onSetMemberStateToAdd}>Back to Add</Button>
+                                  onClick={()=>onSetMemberState(true)}>Back to Add</Button>
                         </>
                         //nowState 값이 true인경우 생성버튼으로 add수행하고 false인 경우 Update버튼으로 업데이트 수행
                     }

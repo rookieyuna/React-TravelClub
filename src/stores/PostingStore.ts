@@ -70,7 +70,6 @@ class PostingStore{
     }
 
 
-
     /************************************************/
 
     //postings 목록에 posting 데이터 Posting 타입으로 저장
