@@ -81,13 +81,14 @@ class MemberStore{
 
     //members 목록에 member 데이터 CommunityMember 타입으로 저장
     @action
-    addMember(member: any): void {
+    addMember(): void {
 
+        const member = this._member;
         //이메일 형식 확인작업 //추후 주석 해제
-        // if (!this.isValidEmailAddress(member.email)) {
-        //     alert('Email format is incorrect')
-        //     return;
-        // }
+        if (!this.isValidEmailAddress(member.email)) {
+            alert('Email format is incorrect')
+            return;
+        }
 
         const newMember = new CommunityMember(member.email, member.name, member.phoneNumber);
         this._members.push(newMember);

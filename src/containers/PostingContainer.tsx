@@ -10,35 +10,39 @@ import Posting from "../entity/board/Posting";
 import PostingWriteView from "../views/postingviews/PostingWriteView";
 import PostingEditView from "../views/postingviews/PostingEditView";
 import CommentContainer from "./CommentContainer";
+import {IStoreProps} from "../stores/IStoreProps";
 
 
 @inject('boardStore', 'postingStore')
 
 @observer
-class PostingContainer extends Component<any>{
+class PostingContainer extends Component<IStoreProps>{
+
+    boardProps = this.props.boardStore!;
+    postingProps = this.props.postingStore!;
 
     //input에 입력되는값 posting 데이터에 업데이트
     onSetPostingProps(name: string,value: string){
-        this.props.postingStore.setPostingProps(name, value);
+        this.postingProps.setPostingProps(name, value);
     }
 
     //리스트에서 선택한 값(Posting)으로 받아 현재 선택된 posting으로 변경
     onSelectedPosting(posting: Posting){
-        this.props.postingStore.selectedPosting(posting);
+        this.postingProps.selectedPosting(posting);
     }
 
     //posting list/detail/write/edit 모드 설정
     onSetPostingState(mode: string){
-        this.props.postingStore.setPostingState(mode);
+        this.postingProps.setPostingState(mode);
     }
 
     onReadCountAdd(){
-        let postingId= this.props.postingStore.posting.postingId;
-        this.props.postingStore.readCountAdd(postingId);
+        let postingId= this.postingProps.posting.postingId;
+        this.postingProps.readCountAdd(postingId);
     }
 
     onAddPosting(): void{
-        let { postingStore } = this.props;
+        let postingStore = this.postingProps;
 
         let paramId  = window.location.pathname.split('/')[2];
 
@@ -57,7 +61,7 @@ class PostingContainer extends Component<any>{
             alert('Please input the posting contents!');
             return;
         }
-        const targetBoard: SocialBoard = this.props.boardStore.retrieve(paramId);
+        const targetBoard: SocialBoard = this.boardProps.retrieve(paramId)!;
 
         postingStore.addPosting(postingStore.posting, targetBoard);
 
@@ -66,7 +70,24 @@ class PostingContainer extends Component<any>{
     }
 
     onUpdatePosting() {
-        let { postingStore } = this.props;
+
+        let postingStore = this.postingProps;
+
+        //write Email 입력여부 확인작업
+        if(!postingStore.posting.writerEmail || postingStore.posting.writerEmail.length===0){
+            alert('Please input the writer email!');
+            return;
+        }
+        //title 입력여부 확인작업
+        if(!postingStore.posting.title || postingStore.posting.title.length===0){
+            alert('Please input the posting title!');
+            return;
+        }
+        //contents 입력여부 확인작업
+        if(!postingStore.posting.contents || postingStore.posting.contents.length===0){
+            alert('Please input the posting contents!');
+            return;
+        }
 
         postingStore.updatePosting();
     }
@@ -74,7 +95,7 @@ class PostingContainer extends Component<any>{
     onRemovePosting(postingId: string){
         //삭제 재확인을 위한 confirm 단계
         if(window.confirm('Are you sure to delete Posting?')===true){
-            this.props.postingStore.removePosting(postingId);
+            this.postingProps.removePosting(postingId);
         }
         else{
             alert('Delete cancelled');
@@ -87,7 +108,7 @@ class PostingContainer extends Component<any>{
 
     render() {
 
-        let { posting, postings, postingState, searchText } = this.props.postingStore;
+        let { posting, postings, postingState, searchText } = this.postingProps;
         postings = postings.filter((searchPosting: Posting) => searchPosting.title.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)
 
         let _article = null; //렌더링할때 postingState에 따라 return할 view컴포넌트를 구분하기 위한 임시변수
@@ -149,7 +170,7 @@ class PostingContainer extends Component<any>{
         }
 
         let paramId  = window.location.pathname.split('/')[2]; //boardId 파라미터 저장
-        let boardName = this.props.boardStore.retrieve(paramId).name;
+        let boardName = this.boardProps.retrieve(paramId)!.name;
 
         return (
         <>
@@ -159,6 +180,11 @@ class PostingContainer extends Component<any>{
             </Grid>
         </>
         )
+    }
+
+    componentWillUnmount() {
+        //글 읽기/쓰기/수정 중 컴포넌트 종료되면 다시 컴포넌트 켤 때 그대로 유지되므로 종료 시 state를 list로 변경하여 리셋되도록 설정
+        this.onSetPostingState('list');
     }
 }
 

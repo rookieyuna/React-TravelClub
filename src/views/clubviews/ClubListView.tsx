@@ -11,12 +11,9 @@ import TravelClub from "../../entity/club/TravelClub";
 
 @observer
 class ClubListView extends Component<any>{
-
-
     render() {
 
         const {clubs, clubState, onSelectedClub, onRemoveClub} = this.props;
-
         return (
 
             <TableContainer component={Paper} >

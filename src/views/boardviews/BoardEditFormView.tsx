@@ -39,7 +39,7 @@ class BoardEditFormView extends Component<any> {
                                 }
                             </Select>
                             :
-                            <Input type="text" value={ board && onFindClub(board.clubId).name ? onFindClub(board.clubId).name : '' }/>
+                            <Input type="text" disabled value={ board && onFindClub(board.clubId).name ? "["+board.clubId+"] " + onFindClub(board.clubId).name : '' }/>
                         }
                         </FormControl>
                     </div>

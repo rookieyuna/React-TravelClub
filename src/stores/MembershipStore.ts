@@ -83,8 +83,9 @@ class MembershipStore{
 
     //memberships 목록에 membership 데이터 ClubMembership 타입으로 저장
     @action
-    addMembership(membership: any, paramId: string): void {
+    addMembership(paramId: string): void {
 
+        const membership = this._membership;
         const newMembership = new ClubMembership(paramId, membership.memberEmail);
 
         this._memberships.push(newMembership);

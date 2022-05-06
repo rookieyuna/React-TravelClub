@@ -2,12 +2,18 @@ import React, { Component } from 'react';
 import { TextField, InputAdornment  } from '@material-ui/core';
 import  SearchIcon  from '@material-ui/icons/Search';
 import {inject, observer} from "mobx-react";
+import {IStoreProps} from "../stores/IStoreProps";
 
 
 @inject('clubStore', 'memberStore', 'membershipStore', 'boardStore', 'postingStore')
 @observer
-class SearchbarContainer extends Component<any> {
+class SearchbarContainer extends Component<IStoreProps> {
 
+    clubProps = this.props.clubStore!;
+    memberProps = this.props.memberStore!;
+    membershipProps = this.props.membershipStore!;
+    boardProps = this.props.boardStore!;
+    postingProps = this.props.postingStore!;
 
     //검색어 입력시마다 searchText 업데이트 (게시판별 구분)
     onChangeSearchText(idx: string, searchText: string){
@@ -16,26 +22,26 @@ class SearchbarContainer extends Component<any> {
 
         switch (idx){
             case "club":
-                this.props.clubStore.setSearchText(searchText);
+                this.clubProps.setSearchText(searchText);
                 break;
             case "member":
-                this.props.memberStore.setSearchText(searchText);
+                this.memberProps.setSearchText(searchText);
                 break;
             case "membership":
-                this.props.membershipStore.setSearchText(searchText);
+                this.membershipProps.setSearchText(searchText);
                 break;
             case "board":
-                this.props.boardStore.setSearchText(searchText);
+                this.boardProps.setSearchText(searchText);
                 break;
             case "posting":
-                this.props.postingStore.setSearchText(searchText);
+                this.postingProps.setSearchText(searchText);
                 break;
         }
     }
 
     render(){
 
-        const {idx} = this.props;
+        const idx = this.props.idx!;
 
         return (
             <TextField
@@ -53,11 +59,11 @@ class SearchbarContainer extends Component<any> {
 
     //컴포넌트 이동시 searchText가 남아있어 리스트 노출안되는 오류 => 컴포넌트 종료되면 searchText 초기화
     componentWillUnmount() {
-        this.props.clubStore.setSearchText("");
-        this.props.memberStore.setSearchText("");
-        this.props.membershipStore.setSearchText("");
-        this.props.boardStore.setSearchText("");
-        this.props.postingStore.setSearchText("");
+        this.clubProps.setSearchText("");
+        this.memberProps.setSearchText("");
+        this.membershipProps.setSearchText("");
+        this.boardProps.setSearchText("");
+        this.postingProps.setSearchText("");
     }
 }
 

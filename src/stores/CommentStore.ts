@@ -71,10 +71,10 @@ class CommentStore{
 
     //comments 목록에 comment 데이터 Comment 타입으로 저장
     @action
-    addComment(comment: any, posting:Posting): void {
+    addComment(posting:Posting): void {
 
         let commentId = posting.nextCommentId; //댓글이 등록될 Posting 정보 넘겨받아서 nextCommentId 사용
-        const newComment = new Comment(commentId, posting.postingId, comment.writer, comment.contents);
+        const newComment = new Comment(commentId, posting.postingId, this._comment.writer, this._comment.contents);
         this._comments.push(newComment);
         console.log('새 댓글 추가완료');
 

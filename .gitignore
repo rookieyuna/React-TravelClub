@@ -27,11 +27,11 @@ yarn-error.log*
 .idea
 /public
 
-package.json
+#package.json
 package-lock.json
 README.md
 yarn.lock
-tsconfig.json
+#tsconfig.json
 .eslintcache
 config-overrides.js
 

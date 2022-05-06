@@ -16,13 +16,12 @@ class App extends Component {
             <div className="App">
                 <Nav/>
                 <Routes>
-                    <Route path="/" element={<ClubContainer/>} />
+                    <Route path="/" element={<ClubContainer />} />
                     <Route path="/member" element={<MemberContainer />} />
                     <Route path="/membership/:id" element={<MembershipContainer />} />
                     <Route path="/membershipOf/:email" element={<MembershipOfMemberContainer />} />
                     <Route path="/board" element={<BoardContainer />} />
                     <Route path="/board/:id" element={<PostingContainer />} />
-                    <Route path="/board/:id/:pId" element={<PostingContainer />} />
                     <Route path="*" element={<EmptyPage/>} />
                 </Routes>
             </div>

@@ -11,7 +11,6 @@ class CommunityMember implements Entity {
     birthDay: string = '';
 
     addresses: Address[] = [];
-    membershipList: ClubMembership[] = [];
 
     constructor(email: string, name: string, phoneNumber: string) {
         //

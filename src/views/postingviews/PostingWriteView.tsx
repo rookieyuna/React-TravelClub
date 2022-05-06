@@ -20,33 +20,25 @@ class PostingWriteView extends Component<any>{
 
 
     render() {
-        //submit하면 각 입력태그의 데이터를 posting observable 에 저장후 add 메서드 실행
         const {onSetPostingProps, onSetPostingState, onAddPosting} = this.props;
 
         return (
-            <form method="post" onSubmit={(e: any)=>{
-                //submit이벤트 발생시 화면 새로고침 방지 //React.FormEvent<HTMLFormElement>
-                e.preventDefault();
-
-                onSetPostingProps('title', e.target.title.value);
-                onSetPostingProps('writerEmail', e.target.writerEmail.value);
-                onSetPostingProps('contents', e.target.contents.value);
-
-                onAddPosting();
-            }}>
+            <form>
                 <TableContainer component={Paper}>
                     <Table>
                         <TableBody>
                             <TableRow>
                                 <TableCell align='center'>Writer Email</TableCell>
                                 <TableCell>
-                                    <Input type="text" name="writerEmail" />
+                                    <Input type="text" name="writerEmail"
+                                           onChange={(event) => onSetPostingProps('writerEmail', event.target.value)}/>
                                 </TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell align='center'>Title</TableCell>
                                 <TableCell>
-                                    <Input type="text" name="title" />
+                                    <Input type="text" name="title"
+                                           onChange={(event) => onSetPostingProps('title', event.target.value)}/>
                                 </TableCell>
                             </TableRow>
                             <TableRow>
@@ -54,6 +46,7 @@ class PostingWriteView extends Component<any>{
                                 <TableCell >
                                     <TextField
                                         name="contents"
+                                        onChange={(event) => onSetPostingProps('contents', event.target.value)}
                                         id="outlined-multiline-flexible"
                                         multiline
                                         fullWidth
@@ -68,7 +61,7 @@ class PostingWriteView extends Component<any>{
                 <br/>
                 <div>
                     <Button variant='contained' color='primary' startIcon={<SaveIcon/>}
-                            type='submit'>Save</Button>&nbsp;&nbsp;
+                            onClick={onAddPosting}>Save</Button>&nbsp;&nbsp;
                     <Button variant='contained' color='default' startIcon={<UpdateIcon/>}
                             type='reset'>Reset</Button>&nbsp;&nbsp;
                     <Button variant='outlined' color='default' startIcon={<ListAltIcon/>}
@@ -78,5 +71,18 @@ class PostingWriteView extends Component<any>{
         )
     }
 }
+
+/*
+    <form method="post" onSubmit={(e: any)=>{
+        //submit이벤트 발생시 화면 새로고침 방지 //React.FormEvent<HTMLFormElement>
+        e.preventDefault();
+
+        onSetPostingProps('title', e.target.title.value);
+        onSetPostingProps('writerEmail', e.target.writerEmail.value);
+        onSetPostingProps('contents', e.target.contents.value);
+
+        onAddPosting();
+    }}>
+* */
 
 export default PostingWriteView;

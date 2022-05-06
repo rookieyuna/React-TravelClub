@@ -12,10 +12,13 @@ import BoardStore from "./stores/BoardStore";
 import PostingStore from "./stores/PostingStore";
 import CommentStore from "./stores/CommentStore";
 
+
 ReactDOM.render(
 
-    <Provider clubStore={ClubStore} memberStore={MemberStore} membershipStore={MembershipStore}
-              boardStore={BoardStore} postingStore={PostingStore} commentStore={CommentStore}>
+    <Provider clubStore={ClubStore}
+              memberStore={MemberStore}
+              membershipStore={MembershipStore} boardStore={BoardStore}
+              postingStore={PostingStore} commentStore={CommentStore}>
         <BrowserRouter>
             {/*<React.StrictMode>*/}
                 <App />

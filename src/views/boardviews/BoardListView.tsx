@@ -44,7 +44,7 @@ class BoardListView extends Component<any>{
                                     <Button variant='contained' color='default' startIcon={<UpdateIcon/>}
                                             onClick={() => onSelectedBoard(board)}></Button>&nbsp;&nbsp;
                                     <Button variant='contained' color='secondary' startIcon={<DeleteIcon/>}
-                                        onClick={() => onRemoveBoard(board)}></Button>
+                                            onClick={() => onRemoveBoard(board)}></Button>
                                 </TableCell>
                             </TableRow>
                             ))

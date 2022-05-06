@@ -1,12 +1,6 @@
 import {observable, makeObservable, computed, toJS, action} from 'mobx';
 import TravelClub from "../entity/club/TravelClub"
 
-export interface IClub {
-    clubId: string,
-    name: string,
-    intro: string
-}
-
 class ClubStore{
 
     //몹엑스6에서 필요한 부분(데코레이터 사용을 위해)
@@ -15,7 +9,7 @@ class ClubStore{
     }
 
     @observable
-    _club: IClub = {
+    _club = {
         clubId: '',
         name: '',
         intro: ''
@@ -84,19 +78,16 @@ class ClubStore{
     //clubs 목록에 club 데이터 TravelClub 타입으로 저장
     currentId: number = 1; //clubId 시퀀스
     @action
-    addClub(club: any): void {
-        const newClub = new TravelClub(club.name, club.intro);
+    addClub(): void {
+        const newClub = new TravelClub(this._club.name, this._club.intro);
+
         newClub.clubId = this.currentId.toString(); //clubId 시퀀스 부여
         this._clubs.push(newClub);
-        console.log('새 클럽 추가완료');
         this.currentId++; //시퀀스 증가
 
         this._club = {
-            clubId: '',
-            name: '',
-            intro: ''
+            clubId: '', name: '', intro: ''
         }; //등록 완료후 input 데이터 비우기
-
     };
 
 

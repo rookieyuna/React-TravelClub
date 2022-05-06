@@ -6,26 +6,30 @@ import Comment from "../entity/board/Comment";
 import Posting from "../entity/board/Posting";
 import commentStore from "../stores/CommentStore";
 import CommentEditFormView from "../views/commentviews/CommentEditFormView";
+import {IStoreProps} from "../stores/IStoreProps";
 
 
 @inject('commentStore', 'postingStore')
 @observer
-class CommentContainer extends Component<any>{
+class CommentContainer extends Component<IStoreProps>{
+
+    postingProps = this.props.postingStore!;
+    commentProps = this.props.commentStore!;
 
     //input에 입력되는값 실시간으로 comment 데이터에 업데이트
     onSetCommentProps(name: string,value: string){
 
-        this.props.commentStore.setCommentProps(name, value);
+        this.commentProps.setCommentProps(name, value);
     }
     //리스트에서 선택한 값(Comment)으로 받아 현재 선택된 comment 로 변경
     onSelectedComment(comment: Comment){
-        this.props.commentStore.selectedComment(comment);
+        this.commentProps.selectedComment(comment);
     }
 
 
     onAddComment(): void{
 
-        let { commentStore } = this.props;
+        let  commentStore = this.commentProps;
 
         //writer 입력 유효성 검증
         if(!commentStore.comment.writer || commentStore.comment.writer.length===0){
@@ -33,25 +37,41 @@ class CommentContainer extends Component<any>{
             return;
         }
         //contents 입력 유효성 검증
-        if(!commentStore.comment.contents || commentStore.comment.writer.contents===0){
+        if(!commentStore.comment.contents || commentStore.comment.contents.length===0){
             alert('Please input comment contents!');
             return;
         }
 
-        let { postingStore } = this.props;
-        const targetPosting: Posting = postingStore.retrieve(postingStore.posting.postingId);
+        let postingStore = this.postingProps;
+        const targetPosting: Posting | null = postingStore.retrieve(postingStore.posting.postingId);
 
-        commentStore.addComment(commentStore.comment, targetPosting);
+        if(targetPosting){
+            commentStore.addComment(targetPosting);
+        }
+        else{
+            alert('Can\'t find the posting to add a comment');
+        }
     }
 
     onUpdateComment(){
-        this.props.commentStore.updateComment();
+
+        //writer 입력 유효성 검증
+        if(!commentStore.comment.writer || commentStore.comment.writer.length===0){
+            alert('Please input comment writer!');
+            return;
+        }
+        //contents 입력 유효성 검증
+        if(!commentStore.comment.contents || commentStore.comment.contents.length===0){
+            alert('Please input comment contents!');
+            return;
+        }
+        this.commentProps.updateComment();
     }
 
     onRemoveComment(comment: Comment){
         //삭제 재확인을 위한 confirm 단계
         if(window.confirm('Are you sure to delete comment?')===true){
-            this.props.commentStore.removeComment(comment);
+            this.commentProps.removeComment(comment);
         }
         else{
             alert('Delete cancelled');
@@ -61,30 +81,30 @@ class CommentContainer extends Component<any>{
 
     render() {
 
-        let { comment, comments, commentState, searchText } = this.props.commentStore;
-        let { postingStore } = this.props;
+        let { comment, comments, commentState } = this.commentProps;
+        let postingStore = this.postingProps;
 
-        const paramId = postingStore.retrieve(postingStore.posting.postingId).postingId;
+        const paramId: string = postingStore.retrieve(postingStore.posting.postingId)!.postingId;
 
         return (
-        <>
-            <Grid>
-                <CommentListView
-                    comments = {comments}
-                    paramId = {paramId}
-                    onSelectedComment = {this.onSelectedComment.bind(this)}
-                    onRemoveComment = {this.onRemoveComment.bind(this)}
-                />
-                <br/>
-                <CommentEditFormView
-                    comment = {comment}
-                    commentState = {commentState}
-                    onSetCommentProps = {this.onSetCommentProps.bind(this)}
-                    onAddComment = {this.onAddComment.bind(this)}
-                    onUpdateComment = {this.onUpdateComment.bind(this)}
+            <>
+                <Grid>
+                    <CommentListView
+                        comments = {comments}
+                        paramId = {paramId}
+                        onSelectedComment = {this.onSelectedComment.bind(this)}
+                        onRemoveComment = {this.onRemoveComment.bind(this)}
                     />
-            </Grid>
-        </>
+                    <br/>
+                    <CommentEditFormView
+                        comment = {comment}
+                        commentState = {commentState}
+                        onSetCommentProps = {this.onSetCommentProps.bind(this)}
+                        onAddComment = {this.onAddComment.bind(this)}
+                        onUpdateComment = {this.onUpdateComment.bind(this)}
+                    />
+                </Grid>
+            </>
         )
     }
 }

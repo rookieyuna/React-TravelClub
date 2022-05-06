@@ -80,7 +80,8 @@ class BoardStore{
 
     //boards 목록에 board 데이터 SocialBoard 타입으로 저장
     @action
-    addBoard(board: any): void {
+    addBoard(): void {
+        const board = this._board;
         const newBoard = new SocialBoard(board.clubId, board.name, board.adminEmail);
         this._boards.push(newBoard);
         console.log('새 게시판 추가완료');

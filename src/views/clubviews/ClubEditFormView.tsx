@@ -3,7 +3,6 @@ import React, {Component} from "react";
 import {Button, Container, Input, Paper} from "@material-ui/core";
 import SaveIcon from '@material-ui/icons/Save';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
-import autobind from "autobind-decorator";
 
 
 @observer

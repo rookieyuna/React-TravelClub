@@ -1,8 +1,7 @@
-import AutoIdEntity from "../AutoIdEntity";
 import DateUtil from "../../util/DateUtil";
-import ClubMembership from "./ClubMembership";
+import Entity from "../Entity";
 
-class TravelClub implements AutoIdEntity{
+class TravelClub implements Entity{
 
     private readonly MINIMUM_NAME_LENGTH: number = 3;
     private readonly MINIMUM_INTRO_LENGTH: number = 10;
@@ -12,12 +11,10 @@ class TravelClub implements AutoIdEntity{
     intro: string = '';
     foundationDate: string = '';
 
-    membershipList: ClubMembership[] = [];
-
     constructor(name: string, intro:string) {
-        //
-        //this.setName(name);
-        //this.setIntro(intro);
+
+        this.setName(name);
+        this.setIntro(intro);
         this.name = name;
         this.intro = intro;
         this.foundationDate = DateUtil.today();
@@ -28,31 +25,12 @@ class TravelClub implements AutoIdEntity{
         return this.clubId;
     }
 
-    setAutoId(autoId: string): void {
-        //
-        this.clubId = autoId;
-    }
-
-    getMembershipBy(email: string): ClubMembership | null {
-        //
-        if (!email || !email.length){
-            return null;
-        }
-
-        let clubMembership;
-
-        for (clubMembership of this.membershipList){
-            if(email === clubMembership.memberEmail) {
-                return clubMembership;
-            }
-        }
-        return null;
-    }
 
     setName(name: string): void {
         //
         if (name.length < this.MINIMUM_NAME_LENGTH) {
-            throw new Error('\n> Name should be longer than '+ this.MINIMUM_NAME_LENGTH);
+            alert('Club name should be longer than '+ this.MINIMUM_NAME_LENGTH);
+            throw new Error('Name length problem');
         }
         this.name = name;
     }
@@ -60,7 +38,8 @@ class TravelClub implements AutoIdEntity{
     setIntro(intro:string): void {
         //
         if (intro.length < this.MINIMUM_INTRO_LENGTH) {
-            throw new Error('\n> Intro should be longer than '+ this.MINIMUM_INTRO_LENGTH);
+            alert('Club intro should be longer than '+ this.MINIMUM_INTRO_LENGTH);
+            throw new Error('Intro length problem');
         }
         this.intro = intro;
     }
