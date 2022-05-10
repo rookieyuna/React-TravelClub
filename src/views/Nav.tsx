@@ -5,7 +5,7 @@ class Nav extends Component {
     render(){
         return (
             <nav className='navtop'>
-                <h2>Travel Club</h2>
+                <Link to='/' className='title'><h2>Travel Club</h2></Link>
                 <ul className='nav-links'>
                     <li><NavLink to='/'>Club</NavLink></li>
                     <li><NavLink to='/member'>Member</NavLink></li>

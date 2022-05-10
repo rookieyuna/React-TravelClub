@@ -5,6 +5,7 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import {Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper, Button} from '@material-ui/core';
 import {observer} from "mobx-react";
 import {Link} from "react-router-dom";
+import moment from 'moment';
 import CommunityMember from "../../entity/club/CommunityMember";
 
 
@@ -15,7 +16,7 @@ class MemberListView extends Component<any>{
 
     render() {
 
-        const {members, memberState, onSelectedMember, onRemoveMember} = this.props;
+        const {members, onSelectedMember, onRemoveMember} = this.props;
 
         return (
 
@@ -41,7 +42,7 @@ class MemberListView extends Component<any>{
                                 <TableCell align='center'>{member.name}</TableCell>
                                 <TableCell align='center'>{member.phoneNumber}</TableCell>
                                 <TableCell align='center'>{member.nickName}</TableCell>
-                                <TableCell align='center'>{member.birthDay}</TableCell>
+                                <TableCell align='center'>{moment(member.birthDay).format('YYYY-MM-DD')}</TableCell>
                                 <TableCell align='center'><Link to={`/membershipOf/${member.email}`}><ListAltIcon/></Link></TableCell>
                                 <TableCell align='center'>
                                     <Button variant='contained' color='default' startIcon={<UpdateIcon/>}

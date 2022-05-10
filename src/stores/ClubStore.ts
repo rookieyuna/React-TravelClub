@@ -1,5 +1,12 @@
 import {observable, makeObservable, computed, toJS, action} from 'mobx';
 import TravelClub from "../entity/club/TravelClub"
+import MemoryMap from "./io/MemoryMap";
+
+export interface IClub {
+    clubId: string;
+    name: string;
+    intro: string;
+}
 
 class ClubStore{
 
@@ -9,7 +16,7 @@ class ClubStore{
     }
 
     @observable
-    _club = {
+    _club: IClub = {
         clubId: '',
         name: '',
         intro: ''
@@ -17,10 +24,14 @@ class ClubStore{
     }; //clubId, name, intro
 
     @observable
-     _clubs: TravelClub[] = [];
+     _clubs: Map<string, TravelClub> = MemoryMap.getInstance().clubMap;
 
     @observable
     _searchText = '';
+
+    @observable
+    _alertText = '';
+
 
     @observable //생성&수정 구분용 (true가 생성이고 기본값)
     _clubState: boolean = true;
@@ -30,12 +41,16 @@ class ClubStore{
     }
 
     @computed
-    get clubs(): TravelClub[] { //클럽목록 get메서드
+    get clubs(): Map<string, TravelClub> { //클럽목록 get메서드
         return toJS(this._clubs);
     }
 
     get searchText(){
         return this._searchText;
+    }
+
+    get alertText(){
+        return this._alertText;
     }
 
     get clubState(){ //입력폼 생성/수정 상태값 얻기
@@ -58,6 +73,10 @@ class ClubStore{
         this._searchText = searchText;
     }
 
+    @action
+    setAlertText(alertText: string){
+        this._alertText = alertText;
+    }
 
     //입력폼 생성/수정 상태값 변경
     @action
@@ -82,26 +101,30 @@ class ClubStore{
         const newClub = new TravelClub(this._club.name, this._club.intro);
 
         newClub.clubId = this.currentId.toString(); //clubId 시퀀스 부여
-        this._clubs.push(newClub);
+        this._clubs.set(newClub.clubId, newClub);
         this.currentId++; //시퀀스 증가
 
         this._club = {
             clubId: '', name: '', intro: ''
         }; //등록 완료후 input 데이터 비우기
+        this._alertText='';
     };
 
 
     //clubId로 TravelClub 찾기
     @action
      retrieve = (clubId: string):TravelClub | null => {
-        let foundClub = this._clubs.find((club)=> club.clubId === clubId);
+        let foundClub = this._clubs.get(clubId);
         return foundClub || null;
     };
 
     //clubName 으로 TravelClub 찾기
     @action
     retrieveByName = (clubName: string):TravelClub | null => {
-        let foundClub = this._clubs.find((club)=> club.name === clubName);
+
+        const clubs = Array.from(this._clubs.values());
+
+        let foundClub = clubs.find((club)=> club.name === clubName);
         return foundClub || null;
     }
 
@@ -125,9 +148,10 @@ class ClubStore{
             foundClub.name = this._club.name; //선택된 club데이터를 현재 입력된 데이터로 변경
             foundClub.intro = this._club.intro;
 
-            this.setClubState(true); //생성으로 입력창 상태값 변경
+            this._clubs.set(foundClub.clubId, foundClub);
 
-            //데이터가 업데이트되어도 List는 변경되는 데이터가 없어서 렌더링안됨(clubState 값을 보내서 해결)
+            this.setClubState(true); //생성으로 입력창 상태값 변경
+            this._alertText='';
         }
         else{
             alert('Sorry, club Update failed.');
@@ -137,10 +161,8 @@ class ClubStore{
     //선택된 TravelClub 삭제하는 메서드
     @action
     removeClub(club: TravelClub):void {
-        let foundClubIndex = this._clubs.findIndex((myClub)=> myClub.clubId === club.clubId); //findIndex로 인덱스까지 한번에 찾음
-        if(foundClubIndex > -1) {
-            this._clubs.splice(foundClubIndex, 1);
-        }
+
+        this._clubs.delete(club.clubId);
         //데이터 비우기
         this._club = {
             clubId: '',

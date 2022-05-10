@@ -1,5 +1,13 @@
 import {observable, makeObservable, computed, toJS, action} from 'mobx';
 import SocialBoard from "../entity/board/SocialBoard";
+import MemoryMap from "./io/MemoryMap";
+
+
+export interface IBoard{
+    clubId: string;
+    name: string;
+    adminEmail: string;
+}
 
 class BoardStore{
 
@@ -9,19 +17,21 @@ class BoardStore{
     }
 
     @observable
-    _board = {
+    _board: IBoard = {
         clubId: '',
         name: '',
         adminEmail: ''
         //createDate
-
     }; //id, name, adminEmail
 
     @observable
-     _boards: SocialBoard[] = [];
+     _boards: Map<string, SocialBoard> = MemoryMap.getInstance().boardMap;
 
     @observable
     _searchText = '';
+
+    @observable
+    _alertText = '';
 
     @observable //생성&수정 구분용 (true가 생성이고 기본값)
     _boardState: boolean = true;
@@ -31,12 +41,16 @@ class BoardStore{
     }
 
     @computed
-    get boards(): SocialBoard[] { //클럽목록 get메서드
+    get boards(): Map<string, SocialBoard> { //클럽목록 get메서드
         return toJS(this._boards);
     }
 
     get searchText(){
         return this._searchText;
+    }
+
+    get alertText(){
+        return this._alertText;
     }
 
     get boardState(){ //입력폼 생성/수정 상태값 얻기
@@ -59,6 +73,10 @@ class BoardStore{
         this._searchText = searchText;
     }
 
+    @action
+    setAlertText(alertText: string){
+        this._alertText = alertText;
+    }
 
     //입력폼 생성/수정 상태값 변경
     @action
@@ -83,8 +101,10 @@ class BoardStore{
     addBoard(): void {
         const board = this._board;
         const newBoard = new SocialBoard(board.clubId, board.name, board.adminEmail);
-        this._boards.push(newBoard);
+        this._boards.set(newBoard.clubId, newBoard);
         console.log('새 게시판 추가완료');
+
+        this._alertText = '';
 
         this._board = {
             clubId: '',
@@ -98,14 +118,15 @@ class BoardStore{
     //clubId로 SocialBoard 찾기
     @action
      retrieve = (clubId: string):SocialBoard | null => {
-        let foundBoard = this._boards.find((board)=> board.clubId === clubId);
+        let foundBoard = this._boards.get(clubId);
         return foundBoard || null;
     };
 
     //boardName 으로 SocialBoard 찾기
     @action
     retrieveByName = (boardName: string):SocialBoard | null => {
-        let foundBoard = this._boards.find((board)=> board.name === boardName);
+
+        let foundBoard = Array.from(this._boards.values()).find((board)=> board.name === boardName);
         return foundBoard || null;
     }
 
@@ -129,9 +150,11 @@ class BoardStore{
             foundBoard.name = this._board.name; //선택된 board데이터를 현재 입력된 데이터로 변경
             foundBoard.adminEmail = this._board.adminEmail;
 
-            this.setBoardState(true); //생성으로 입력창 상태값 변경
+            this._boards.set(foundBoard.getId(), foundBoard);
 
-            //데이터가 업데이트되어도 List는 변경되는 데이터가 없어서 렌더링안됨(boardState 값을 보내서 해결)
+            this.setBoardState(true); //생성으로 입력창 상태값 변경
+            this._alertText = '';
+
         }
         else{
             alert('Sorry, board Update failed.');
@@ -141,10 +164,9 @@ class BoardStore{
     //선택된 SocialBoard 삭제하는 메서드
     @action
     removeBoard(board: SocialBoard):void {
-        let foundBoardIndex = this._boards.findIndex((myBoard)=> myBoard.clubId === board.clubId); //findIndex로 인덱스까지 한번에 찾음
-        if(foundBoardIndex > -1) {
-            this._boards.splice(foundBoardIndex, 1);
-        }
+
+        this._boards.delete(board.getId());
+
         //데이터 비우기
         this._board = {
             clubId: '',

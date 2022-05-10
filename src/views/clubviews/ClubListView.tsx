@@ -13,7 +13,7 @@ import TravelClub from "../../entity/club/TravelClub";
 class ClubListView extends Component<any>{
     render() {
 
-        const {clubs, clubState, onSelectedClub, onRemoveClub} = this.props;
+        const {clubs, onSelectedClub, onRemoveClub} = this.props;
         return (
 
             <TableContainer component={Paper} >

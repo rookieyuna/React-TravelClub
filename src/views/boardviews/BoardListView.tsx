@@ -6,15 +6,16 @@ import {Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper,
 import {observer} from "mobx-react";
 import {Link} from "react-router-dom";
 import SocialBoard from "../../entity/board/SocialBoard";
+import {IBoardProps} from "./IBoardProps";
 
 
 @observer
-class BoardListView extends Component<any>{
+class BoardListView extends Component<IBoardProps>{
 
 
     render() {
 
-        const {boards, boardState, onSelectedBoard, onRemoveBoard} = this.props;
+        const {boards, onSelectedBoard, onRemoveBoard} = this.props;
 
         return (
 
@@ -42,9 +43,9 @@ class BoardListView extends Component<any>{
                                 <TableCell align='center'><Link to={`/board/${board.clubId}`}><ListAltIcon/></Link></TableCell>
                                 <TableCell align='center'>
                                     <Button variant='contained' color='default' startIcon={<UpdateIcon/>}
-                                            onClick={() => onSelectedBoard(board)}></Button>&nbsp;&nbsp;
+                                            onClick={() => onSelectedBoard!(board)}></Button>&nbsp;&nbsp;
                                     <Button variant='contained' color='secondary' startIcon={<DeleteIcon/>}
-                                            onClick={() => onRemoveBoard(board)}></Button>
+                                            onClick={() => onRemoveBoard!(board)}></Button>
                                 </TableCell>
                             </TableRow>
                             ))

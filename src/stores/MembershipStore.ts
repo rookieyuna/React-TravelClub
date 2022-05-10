@@ -1,6 +1,13 @@
 import {observable, makeObservable, computed, toJS, action} from 'mobx';
 import ClubMembership from "../entity/club/ClubMembership";
 import RoleInClub from "../entity/club/RoleInClub";
+import memoryMap from "./io/MemoryMap";
+
+interface IMembership {
+    clubId : string,
+    memberEmail : string,
+    role: string
+}
 
 class MembershipStore{
 
@@ -10,19 +17,21 @@ class MembershipStore{
     }
 
     @observable
-    _membership = {
+    _membership: IMembership = {
         clubId : '',
         memberEmail : '',
         role: '' // RoleInClub = RoleInClub.Member;
         //joinDate: string = '';
-
     }; //clubId, memberEmail
 
     @observable
-    _memberships : ClubMembership[] = [];
+    _memberships : Map<string, ClubMembership> = memoryMap.getInstance().membershipMap;
 
     @observable
     _searchText = '';
+
+    @observable
+    _alertText = '';
 
     @observable //생성&수정 구분용 (true가 생성이고 기본값)
     _membershipState: boolean = true;
@@ -33,7 +42,7 @@ class MembershipStore{
     }
 
     @computed
-    get memberships(): ClubMembership[] { //멤버쉽 목록 get메서드
+    get memberships(): Map<string, ClubMembership> { //멤버쉽 목록 get메서드
         return toJS(this._memberships);
     }
 
@@ -41,15 +50,18 @@ class MembershipStore{
         return this._searchText;
     }
 
+    get alertText(){
+        return this._alertText;
+    }
+
     get membershipState(){ //입력폼 생성/수정 상태값 얻기
         return this._membershipState;
     }
 
 
-
     /**********************************************/
 
-    //club 값 설정해주는 메서드
+
     @action
     setMembershipProps(name: string, value: string){
         this._membership = {
@@ -61,6 +73,10 @@ class MembershipStore{
     @action
     setSearchText(searchText: string){
         this._searchText = searchText;
+    }
+    @action
+    setAlertText(alertText: string){
+        this._alertText = alertText;
     }
 
     //입력폼 생성/수정 상태값 변경
@@ -76,20 +92,19 @@ class MembershipStore{
         }
     }
 
-
     /************************************************
      *************************************************/
 
-
-    //memberships 목록에 membership 데이터 ClubMembership 타입으로 저장
+    //memberships 맵에 membership 데이터 ClubMembership 타입으로 저장
+    sequence = 1;
     @action
     addMembership(paramId: string): void {
+        const email = this._membership.memberEmail;
+        const newMembership = new ClubMembership(paramId, email);
 
-        const membership = this._membership;
-        const newMembership = new ClubMembership(paramId, membership.memberEmail);
-
-        this._memberships.push(newMembership);
+        this._memberships.set(paramId+':'+email, newMembership);
         console.log('새 멤버쉽 추가완료');
+        this.sequence++;
 
         this._membership = {
             clubId: '',
@@ -100,14 +115,21 @@ class MembershipStore{
 
     //memberEmail 로 ClubMembership 찾기 (멤버쉽 리스트 반환)
     retrieveByEmail = (memberEmail: string):ClubMembership[] | null => {
-        let foundMembership= this._memberships.filter((membership)=> membership.memberEmail === memberEmail);
+
+        let membershipList = Array.from(this._memberships.values());
+        let foundMembership= membershipList.filter((membership)=> membership.memberEmail === memberEmail);
+
         return foundMembership || null;
     };
 
     // clubId와 memberEmail로 특정 membership 찾기
     getMembership = (clubId: string, memberEmail: string): ClubMembership | null => {
+
+        let foundMembership = this._memberships.get(clubId+':'+memberEmail);
+        /*
+        //membership이 배열이었을 때 찾는 방법
         let foundMembership = this._memberships.filter((membership)=> membership.clubId === clubId)
-                .find((membership)=> membership.memberEmail === memberEmail)
+                .find((membership)=> membership.memberEmail === memberEmail)*/
 
         return foundMembership || null;
     }
@@ -129,11 +151,10 @@ class MembershipStore{
         let foundMembership = this.getMembership(this._membership.clubId, this._membership.memberEmail);
 
         if(foundMembership){ //일치하는 클럽 있을경우
-            foundMembership.role = this._membership.role as RoleInClub; //선택된 member role을 현재 입력된 데이터로 변경
+            foundMembership.role = this._membership.role as RoleInClub;
+            this._memberships.set(this._membership.clubId+':'+this._membership.memberEmail, foundMembership);
 
             this.setMembershipState(true); //생성으로 입력창 상태값 변경
-
-            //데이터가 업데이트되어도 List는 변경되는 데이터가 없어서 렌더링안됨(clubState 값을 보내서 해결)
         }
         else{
             alert('Sorry, Membership Update failed.');
@@ -145,13 +166,8 @@ class MembershipStore{
     @action
     removeMembership(membership: ClubMembership):void {
 
-        let foundMembership = this.getMembership(membership.clubId, membership.memberEmail);
-        if(foundMembership){
-            const membershipIdx = this._memberships.indexOf(foundMembership);
-            if(membershipIdx > -1) {
-                this._memberships.splice(membershipIdx, 1);
-            }
-        }
+        this._memberships.delete(membership.clubId+':'+membership.memberEmail);
+
     }
 }
 

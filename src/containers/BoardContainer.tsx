@@ -33,8 +33,11 @@ class BoardContainer extends Component<IStoreProps>{
     }
 
     //클럽id로 TravelClub데이터 찾기
-    onFindClub (clubId: string): TravelClub | null {
+    onFindClub (clubId: string): TravelClub {
         let foundClub = this.clubProps.retrieve(clubId);
+        if(!foundClub){
+            throw new Error('Can\'t find the club with clubId');
+        }
         return foundClub;
     }
 
@@ -46,28 +49,34 @@ class BoardContainer extends Component<IStoreProps>{
 
         //클럽 선택 여부 확인작업
         if(!boardStore.board.clubId || boardStore.board.clubId.length===0){
-            alert('Please choice club!');
+            boardStore.setAlertText('Please choice club!');
             return;
         }
         //클럽id 등록 중복 여부 확인작업
         if(boardStore.retrieve(boardStore.board.clubId)){
-            alert('This club board is already exist! Please check the lists.');
+            boardStore.setAlertText('This club board is already exist! Please check the lists.');
             return;
         }
         //보드이름 입력여부 확인작업
         if(!boardStore.board.name || boardStore.board.name.length===0){
-            alert('Please input board name!');
+            boardStore.setAlertText('Please input board name!');
             return;
         }
         //보드이름 중복을 방지하기 위한 확인작업
         if(boardStore.retrieveByName(boardStore.board.name)){
-            alert('The board name is already exist!');
+            boardStore.setAlertText('The board name is already exist!');
+            return;
+        }
+
+        //보드이름 입력여부 확인작업
+        if(!boardStore.board.adminEmail || boardStore.board.adminEmail.length===0){
+            boardStore.setAlertText('Please input adminEmail!');
             return;
         }
 
         //adminEmail 존재 여부 확인작업
         if(!this.membershipProps.getMembership(boardStore.board.clubId, boardStore.board.adminEmail)){
-            alert('The Admin Email is not registered in this club');
+            boardStore.setAlertText('The Admin Email is not registered in this club');
             return;
         }
         boardStore.addBoard();
@@ -78,7 +87,7 @@ class BoardContainer extends Component<IStoreProps>{
 
         //adminEmail 존재 여부 확인작업
         if(!this.membershipProps.getMembership(boardStore.board.clubId, boardStore.board.adminEmail)){
-            alert('The Admin Email is not registered in this club');
+            boardStore.setAlertText('The Admin Email is not registered in this club');
             return;
         }
         boardStore.updateBoard();
@@ -99,9 +108,9 @@ class BoardContainer extends Component<IStoreProps>{
     render() {
 
         let { clubs } = this.clubProps;
-        let { board, boards, boardState, searchText } = this.boardProps;
+        let { board, boards, boardState, searchText, alertText } = this.boardProps;
 
-        boards = boards.filter((searchBoard: SocialBoard) => searchBoard.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)
+        const searchBoard = Array.from(boards.values()).filter((searchBoard: SocialBoard) => searchBoard.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)
 
         return (
             <>
@@ -112,6 +121,7 @@ class BoardContainer extends Component<IStoreProps>{
                             clubs = {clubs} //클럽리스트 가져와서 전달 (select박스용)
                             board = {board}
                             boardState = {boardState} //입력폼 생성&수정 변경위한 값
+                            alertText = {alertText}
                             onSetBoardProps = {this.onSetBoardProps.bind(this)}
                             onSetBoardState = {this.onSetBoardState.bind(this)}
                             onAddBoard = {this.onAddBoard.bind(this)}
@@ -122,8 +132,7 @@ class BoardContainer extends Component<IStoreProps>{
                     <Grid item xs={9}>
                         <Typography display={"inline"}>Board Name: </Typography>&nbsp;<SearchbarContainer idx = {"board"} />
                         <BoardListView
-                            boards = {boards}
-                            boardState = {boardState} //입력폼 생성&수정 변경위한 값
+                            boards = {searchBoard}
                             onSelectedBoard = {this.onSelectedBoard.bind(this)} //인풋태그 업데이트용 프롭스로 전달
                             onRemoveBoard = {this.onRemoveBoard.bind(this)} //삭제함수를 프롭스로 전달
                         />

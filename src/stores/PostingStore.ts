@@ -1,6 +1,15 @@
 import {observable, makeObservable, computed, toJS, action} from 'mobx';
 import Posting from "../entity/board/Posting";
 import SocialBoard from "../entity/board/SocialBoard";
+import memoryMap from "./io/MemoryMap";
+
+interface IPosting {
+    postingId: string,
+    boardId: string,
+    title: string,
+    writerEmail: string,
+    contents: string
+}
 
 class PostingStore{
 
@@ -10,7 +19,7 @@ class PostingStore{
     }
 
     @observable
-    _posting = {
+    _posting: IPosting = {
         postingId: '',
         boardId: '',
         title: '',
@@ -20,10 +29,13 @@ class PostingStore{
     };
 
     @observable
-    _postings: Posting[] = [];
+    _postings: Map<string, Posting> = memoryMap.getInstance().postingMap;
 
     @observable
     _searchText = '';
+
+    @observable
+    _alertText = '';
 
     @observable //list/detail/write/edit 구분용
     _postingState: string = "list"; //기본값 list
@@ -34,12 +46,16 @@ class PostingStore{
     }
 
     @computed
-    get postings(): Posting[] { //클럽목록 get메서드
+    get postings(): Map<string, Posting> { //클럽목록 get메서드
         return toJS(this._postings);
     }
 
     get searchText(){
         return this._searchText;
+    }
+
+    get alertText(){
+        return this._alertText;
     }
 
     get postingState(){ //입력폼 생성/수정 상태값 얻기
@@ -62,6 +78,10 @@ class PostingStore{
         this._searchText = searchText;
     }
 
+    @action
+    setAlertText(alertText: string){
+        this._alertText = alertText;
+    }
 
     //postingState list/detail/write/edit 상태값변경용 setter
     @action
@@ -78,7 +98,7 @@ class PostingStore{
 
         let postingId = board.nextPostingId; //글이 등록될 Board객체 정보 넘겨받아서 nextPostingId 사용
         const newPosting = new Posting(postingId, board.clubId, posting.title, posting.writerEmail, posting.contents);
-        this._postings.push(newPosting);
+        this._postings.set(postingId, newPosting);
         console.log('새 게시글 추가완료');
 
         this._posting = {
@@ -88,6 +108,7 @@ class PostingStore{
             writerEmail: '',
             contents: ''
         }; //등록 완료후 데이터 비우기
+        this._alertText='';
     };
 
     //조회수 증가시키는 함수
@@ -102,7 +123,7 @@ class PostingStore{
     //postingId로 Posting 찾기
     @action
      retrieve = (postingId: string):Posting | null => {
-        let foundPosting = this._postings.find((posting)=> posting.postingId === postingId);
+        let foundPosting = this._postings.get(postingId);
         return foundPosting || null;
     };
 
@@ -134,6 +155,8 @@ class PostingStore{
             foundPosting.writerEmail = this._posting.writerEmail;
             foundPosting.contents = this._posting.contents;
 
+            this._postings.set(this._posting.postingId, foundPosting);
+
             this._posting = {
                 postingId: '',
                 boardId: '',
@@ -142,7 +165,7 @@ class PostingStore{
                 contents: ''
             }; //업데이트 완료후 데이터 비우기
 
-            this.setPostingState(""); //생성으로 입력창 상태값 변경
+            this._alertText= '';
         }
         else{
             alert('Sorry, posting modify failed.');
@@ -153,26 +176,15 @@ class PostingStore{
     @action
     removePosting(postingId: string):void {
 
-        const posting = this.retrieve(postingId);
+        this._postings.delete(postingId);
 
-        if(posting){
-            let foundPostingIndex = this._postings.findIndex((myPosting)=> myPosting.postingId === posting.postingId);
-            if(foundPostingIndex > -1) {
-                this._postings.splice(foundPostingIndex, 1);
-            }
-            //데이터 비우기
-            this._posting = {
-                postingId: '',
-                boardId: '',
-                title: '',
-                writerEmail: '',
-                contents: ''
-            };
-        }
-        else{
-            alert('Sorry, posting delete failed.');
-        }
-
+        this._posting = {
+            postingId: '',
+            boardId: '',
+            title: '',
+            writerEmail: '',
+            contents: ''
+        }//데이터 비우기
     }
 }
 

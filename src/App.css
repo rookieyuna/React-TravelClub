@@ -19,8 +19,16 @@
   list-style: none;
 }
 
+.title {
+  color: white;
+}
+
 a {
   color: black; text-decoration: none;
+}
+
+.alertText {
+  color: red;
 }
 
 .active {

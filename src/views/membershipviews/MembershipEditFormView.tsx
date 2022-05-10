@@ -11,7 +11,7 @@ class MembershipEditFormView extends Component<any> {
 
     render() {
 
-        const { membership, membershipState, onSetMembershipProps, onSetMembershipState, onAddMembership, onUpdateMembership } = this.props;  //컨테이너에서 받아온 프롭스
+        const { membership, membershipState,alertText, onSetMembershipProps, onSetMembershipState, onAddMembership, onUpdateMembership } = this.props;  //컨테이너에서 받아온 프롭스
 
         let paramId  = window.location.pathname.split('/')[2]; //파라미터 저장
 
@@ -47,7 +47,8 @@ class MembershipEditFormView extends Component<any> {
                                 </div>
                             </>
                     }
-                    <br/>
+                    <span className='alertText'>{alertText}</span>
+                    <br/><br/>
                     {
                         membershipState === true ?
                             <Button variant='contained' color='primary' startIcon={<SaveIcon />}

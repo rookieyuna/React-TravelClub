@@ -24,7 +24,8 @@ class CommentListView extends Component<any>{
         const {comments, paramId, onSelectedComment, onRemoveComment} = this.props;
 
         //선택한 board의 postingList만 나오도록 설정
-        let newLists = comments.filter((searchComment: Comment) => searchComment.postingId === paramId);
+        let commentsList: Comment[] = Array.from(comments.values());
+        let newLists = commentsList.filter((searchComment: Comment) => searchComment.postingId === paramId);
 
         return (
             <TableContainer component={Paper} >
@@ -49,7 +50,7 @@ class CommentListView extends Component<any>{
                                             <Button variant='contained' color='default' startIcon={<UpdateIcon/>} size='small'
                                                     onClick={() => onSelectedComment(comment)}></Button>&nbsp;&nbsp;
                                             <Button variant='contained' color='secondary' startIcon={<DeleteIcon/>} size='small'
-                                                    onClick={() => onRemoveComment(comment)}></Button>
+                                                    onClick={() => onRemoveComment(comment.commentId)}></Button>
                                         </TableCell>
                                     </TableRow>
                                 ))

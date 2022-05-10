@@ -48,17 +48,17 @@ class PostingContainer extends Component<IStoreProps>{
 
         //write Email 입력여부 확인작업
         if(!postingStore.posting.writerEmail || postingStore.posting.writerEmail.length===0){
-            alert('Please input the writer email!');
+            postingStore.setAlertText('Please input the writer email!');
             return;
         }
         //title 입력여부 확인작업
         if(!postingStore.posting.title || postingStore.posting.title.length===0){
-            alert('Please input the posting title!');
+            postingStore.setAlertText('Please input the posting title!');
             return;
         }
         //contents 입력여부 확인작업
         if(!postingStore.posting.contents || postingStore.posting.contents.length===0){
-            alert('Please input the posting contents!');
+            postingStore.setAlertText('Please input the posting contents!');
             return;
         }
         const targetBoard: SocialBoard = this.boardProps.retrieve(paramId)!;
@@ -75,17 +75,17 @@ class PostingContainer extends Component<IStoreProps>{
 
         //write Email 입력여부 확인작업
         if(!postingStore.posting.writerEmail || postingStore.posting.writerEmail.length===0){
-            alert('Please input the writer email!');
+            postingStore.setAlertText('Please input the writer email!');
             return;
         }
         //title 입력여부 확인작업
         if(!postingStore.posting.title || postingStore.posting.title.length===0){
-            alert('Please input the posting title!');
+            postingStore.setAlertText('Please input the posting title!');
             return;
         }
         //contents 입력여부 확인작업
         if(!postingStore.posting.contents || postingStore.posting.contents.length===0){
-            alert('Please input the posting contents!');
+            postingStore.setAlertText('Please input the posting contents!');
             return;
         }
 
@@ -108,8 +108,8 @@ class PostingContainer extends Component<IStoreProps>{
 
     render() {
 
-        let { posting, postings, postingState, searchText } = this.postingProps;
-        postings = postings.filter((searchPosting: Posting) => searchPosting.title.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)
+        let { posting, postings, alertText, postingState, searchText } = this.postingProps;
+        let searchPostings = Array.from(postings.values()).filter((searchPosting: Posting) => searchPosting.title.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)
 
         let _article = null; //렌더링할때 postingState에 따라 return할 view컴포넌트를 구분하기 위한 임시변수
 
@@ -120,8 +120,7 @@ class PostingContainer extends Component<IStoreProps>{
                 <Grid item xs={10}>
                     <SearchbarContainer idx = {"posting"} />
                     <PostingListView
-                        postings = {postings}
-                        postingState = {postingState} //입력폼 생성&수정 변경위한 값
+                        postings = {searchPostings}
                         onSetPostingState = {this.onSetPostingState.bind(this)}
                         onSelectedPosting = {this.onSelectedPosting.bind(this)}//인풋태그 업데이트용 프롭스로 전달
                         onReadCountAdd = {this.onReadCountAdd.bind(this)} // 조회수 증가시켜주는 함수
@@ -149,6 +148,7 @@ class PostingContainer extends Component<IStoreProps>{
             _article =
                 <Grid item xs={10}>
                     <PostingWriteView
+                        alertText = {alertText}
                         onSetPostingProps = {this.onSetPostingProps.bind(this)}
                         onSetPostingState = {this.onSetPostingState.bind(this)}
                         onAddPosting = {this.onAddPosting.bind(this)}

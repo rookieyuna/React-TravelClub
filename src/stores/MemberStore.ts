@@ -1,6 +1,14 @@
 import {observable, makeObservable, computed, toJS, action} from 'mobx';
 import CommunityMember from "../entity/club/CommunityMember";
+import MemoryMap from "./io/MemoryMap";
 
+interface IMember {
+    email: string,
+    name: string,
+    phoneNumber: string,
+    nickName: string,
+    birthDay: string
+}
 
 class MemberStore{
 
@@ -10,7 +18,7 @@ class MemberStore{
     }
 
     @observable
-    _member = {
+    _member: IMember = {
         email: '',
         name: '',
         phoneNumber: '',
@@ -19,25 +27,33 @@ class MemberStore{
     }; //email, name, phoneNumber
 
     @observable
-    _members: CommunityMember[] = [];
+    _members: Map<string, CommunityMember> = MemoryMap.getInstance().memberMap;
 
     @observable
     _searchText = '';
 
+    @observable
+    _alertText = '';
+
     @observable //생성&수정 구분용 (true가 생성이고 기본값)
     _memberState: boolean = true;
+
 
     get member(){ //입력된 데이터 얻기
         return this._member;
     }
 
     @computed
-    get members(): CommunityMember[] { //클럽목록 get메서드
+    get members(): Map<string, CommunityMember> { //클럽목록 get메서드
         return toJS(this._members);
     }
 
     get searchText(){
         return this._searchText;
+    }
+
+    get alertText(){
+        return this._alertText;
     }
 
     get memberState(){ //입력폼 생성/수정 상태값 얻기
@@ -58,6 +74,11 @@ class MemberStore{
     @action
     setSearchText(searchText: string){
         this._searchText = searchText;
+    }
+
+    @action
+    setAlertText(alertText: string){
+        this._alertText = alertText;
     }
 
     //입력폼 생성/수정 상태값 변경
@@ -84,15 +105,20 @@ class MemberStore{
     addMember(): void {
 
         const member = this._member;
-        //이메일 형식 확인작업 //추후 주석 해제
+        //이메일 형식 확인작업
         if (!this.isValidEmailAddress(member.email)) {
-            alert('Email format is incorrect')
+            this._alertText ='Email format is incorrect';
             return;
         }
 
         const newMember = new CommunityMember(member.email, member.name, member.phoneNumber);
-        this._members.push(newMember);
+        newMember.birthDay = member.birthDay;
+        newMember.nickName = member.nickName;
+
+        this._members.set(member.email, newMember);
         console.log('새 멤버 추가완료');
+
+        this._alertText = '';
 
         this._member = {
             email: '',
@@ -123,7 +149,8 @@ class MemberStore{
     //email로 CommunityMember 찾기
     @action
     retrieve = (email: string):CommunityMember | null => {
-        let foundMember = this._members.find((member)=> member.email === email);
+
+        let foundMember = this._members.get(email);
         return foundMember || null;
     };
 
@@ -139,9 +166,10 @@ class MemberStore{
             foundMember.nickName = this._member.nickName;
             foundMember.birthDay = this._member.birthDay;
 
-            this.setMemberState(true); //생성으로 입력창 상태값 변경
+            this._members.set(foundMember.email, foundMember);
 
-            //데이터가 업데이트되어도 List는 변경되는 데이터가 없어서 렌더링안됨(MemberState 값을 보내서 해결)
+            this.setMemberState(true); //생성으로 입력창 상태값 변경
+            this._alertText = '';
         }
         else{
             alert('Sorry, member Update failed.');
@@ -152,10 +180,23 @@ class MemberStore{
     //선택된 CommunityMember 삭제하는 메서드
     @action
     removeMember(member: CommunityMember):void {
-        let foundMemberIndex = this._members.findIndex((myMember)=> myMember.email === member.email); //findIndex로 인덱스까지 한번에 찾음
-        if(foundMemberIndex > -1) {
-            this._members.splice(foundMemberIndex, 1);
+        this._members.delete(member.email);
+
+        /*
+        //_members를 리스트로 썼을때 코드
+        let foundBoardIndex = this._members.findIndex((myMember)=> myMember.clubId === member.clubId); //findIndex로 인덱스까지 한번에 찾음
+        if(foundBoardIndex > -1) {
+            this._members.splice(foundBoardIndex, 1);
         }
+        */
+
+        this._member = {
+            email: '',
+            name: '',
+            phoneNumber: '',
+            nickName: '',
+            birthDay: ''
+        }; //삭제 완료후 데이터 비우기
     }
 }
 

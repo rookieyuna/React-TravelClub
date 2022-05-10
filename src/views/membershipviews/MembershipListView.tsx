@@ -12,7 +12,7 @@ class MembershipListView extends Component<any>{
 
     render() {
 
-        const {memberships, membershipState, onSelectedMembership, onRemoveMembership} = this.props;
+        const {memberships, onSelectedMembership, onRemoveMembership} = this.props;
 
         let paramId  = window.location.pathname.split('/')[2];
         let newLists = memberships.filter((searchMembership: ClubMembership) => searchMembership.clubId === paramId);

@@ -20,7 +20,7 @@ class PostingWriteView extends Component<any>{
 
 
     render() {
-        const {onSetPostingProps, onSetPostingState, onAddPosting} = this.props;
+        const {onSetPostingProps, alertText, onSetPostingState, onAddPosting} = this.props;
 
         return (
             <form>
@@ -58,7 +58,8 @@ class PostingWriteView extends Component<any>{
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <br/>
+                <span className='alertText'>{alertText}</span>
+                <br/><br/>
                 <div>
                     <Button variant='contained' color='primary' startIcon={<SaveIcon/>}
                             onClick={onAddPosting}>Save</Button>&nbsp;&nbsp;

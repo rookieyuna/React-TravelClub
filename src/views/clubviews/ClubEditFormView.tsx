@@ -10,7 +10,7 @@ class ClubEditFormView extends Component<any> {
 
     render() {
 
-        const { club, clubState, onSetClubProps, onSetClubState, onAddClub, onUpdateClub } = this.props;  //컨테이너에서 받아온 프롭스
+        const { club, clubState, alertText, onSetClubProps, onSetClubState, onAddClub, onUpdateClub } = this.props;  //컨테이너에서 받아온 프롭스
 
         return (
             <Container component={Paper}>
@@ -31,7 +31,8 @@ class ClubEditFormView extends Component<any> {
                                value={ club && club.intro ? club.intro : '' }
                                onChange={(event) => onSetClubProps('intro', event.target.value)}/>
                     </div>
-                    <br/>
+                    <span className='alertText'>{alertText}</span>
+                    <br/><br/>
                     {
                         clubState === true ?
                             <Button variant='contained' color='primary' startIcon={<SaveIcon />}

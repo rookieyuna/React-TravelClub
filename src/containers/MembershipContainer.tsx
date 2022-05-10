@@ -37,17 +37,17 @@ class MembershipContainer extends Component<IStoreProps>{
 
         //멤버쉽 이메일 입력여부 확인작업
         if(!memberEmail || memberEmail.length===0){
-            alert('Please input member email!');
+            membershipStore.setAlertText('Please input member email!');
             return;
         }
         //멤버쉽 중복등록을 방지하기 위한 확인작업
         if(membershipStore.getMembership(paramId, memberEmail)){
-            alert('The member email is already exist!');
+            membershipStore.setAlertText('Email is already exist!');
             return;
         }
         //멤버스토어에 있는지 확인필요!!
         if(!this.memberProps.retrieve(memberEmail)){
-            alert('It is not registered member email in Travel Club')
+            membershipStore.setAlertText('It is not registered member email in Travel Club');
             return;
         }
         else{
@@ -57,14 +57,14 @@ class MembershipContainer extends Component<IStoreProps>{
 
    onUpdateMembership(){
 
-       let { membershipStore } = this.props;
+       let membershipStore = this.membershipProps;
        // Role입력내용 유효성검증
-       if(!(this.membershipProps.membership.role === "Member" as RoleInClub
-       || this.membershipProps.membership.role === "President" as RoleInClub)){
-           alert('Please put President or Member in role')
+       if(!(membershipStore.membership.role === "Member" as RoleInClub
+       || membershipStore.membership.role === "President" as RoleInClub)){
+           membershipStore.setAlertText('Please put President or Member in role');
            return;
        }
-       this.membershipProps.updateMembership();
+       membershipStore.updateMembership();
     }
 
     onRemoveMembership(membership: ClubMembership){
@@ -80,13 +80,13 @@ class MembershipContainer extends Component<IStoreProps>{
 
     render() {
 
-        let { membership, memberships, membershipState, searchText } = this.membershipProps;
+        let { membership, memberships, alertText, membershipState, searchText } = this.membershipProps;
 
         let paramId  = window.location.pathname.split('/')[2]; //파라미터 저장
         let clubName = this.clubProps.retrieve(paramId)!.name;
 
         //검색
-        memberships = memberships.filter((searchMembership: ClubMembership) => searchMembership.memberEmail.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)
+        let searchMemberships = Array.from(memberships.values()).filter((searchMembership: ClubMembership) => searchMembership.memberEmail.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)
 
         return (
         <>
@@ -97,6 +97,7 @@ class MembershipContainer extends Component<IStoreProps>{
 
                         membership = {membership}
                         membershipState = {membershipState} //입력폼 생성&수정 변경위한 값
+                        alertText = {alertText}
                         onSetMembershipProps = {this.onSetMembershipProps.bind(this)}
                         onSetMembershipState = {this.onSetMembershipState.bind(this)}
                         onAddMembership = {this.onAddMembership.bind(this)}
@@ -106,8 +107,7 @@ class MembershipContainer extends Component<IStoreProps>{
                 <Grid item xs={9}>
                     <Typography display={"inline"}>Member Email: </Typography>&nbsp;<SearchbarContainer idx = {"membership"} />
                     <MembershipListView
-                        memberships = {memberships}
-                        membershipState = {membershipState} //입력폼 생성&수정 변경위한 값
+                        memberships = {searchMemberships}
                         onSelectedMembership = {this.onSelectedMembership.bind(this)} //인풋태그 업데이트용 프롭스로 전달
                         onRemoveMembership = {this.onRemoveMembership.bind(this)} //삭제함수를 프롭스로 전달
                     />

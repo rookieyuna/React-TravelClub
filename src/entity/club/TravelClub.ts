@@ -13,8 +13,8 @@ class TravelClub implements Entity{
 
     constructor(name: string, intro:string) {
 
-        this.setName(name);
-        this.setIntro(intro);
+        //this.setName(name);
+        //this.setIntro(intro);
         this.name = name;
         this.intro = intro;
         this.foundationDate = DateUtil.today();

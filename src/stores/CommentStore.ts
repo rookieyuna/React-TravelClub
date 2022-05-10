@@ -1,6 +1,14 @@
 import {observable, makeObservable, computed, toJS, action} from 'mobx';
 import Comment from "../entity/board/Comment";
 import Posting from "../entity/board/Posting";
+import memoryMap from "./io/MemoryMap";
+
+interface IComment {
+    commentId : string,
+    postingId : string,
+    writer : string,
+    contents: string
+}
 
 class CommentStore{
 
@@ -10,7 +18,7 @@ class CommentStore{
     }
 
     @observable
-    _comment = {
+    _comment: IComment = {
         commentId : '',
         postingId : '',
         writer : '',
@@ -19,18 +27,17 @@ class CommentStore{
     };
 
     @observable
-    _comments : Comment[] = [];
+    _comments : Map<string, Comment> = memoryMap.getInstance().commentMap;
 
     @observable //생성&수정 구분용 (true가 생성이고 기본값)
     _commentState: boolean = true;
 
-
+    @computed
     get comment(){ //입력된 데이터 얻기
         return this._comment;
     }
 
-    @computed
-    get comments(): Comment[] { //댓글 목록 get메서드
+    get comments(): Map<string, Comment> { //댓글 목록 get메서드
         return toJS(this._comments);
     }
 
@@ -75,7 +82,7 @@ class CommentStore{
 
         let commentId = posting.nextCommentId; //댓글이 등록될 Posting 정보 넘겨받아서 nextCommentId 사용
         const newComment = new Comment(commentId, posting.postingId, this._comment.writer, this._comment.contents);
-        this._comments.push(newComment);
+        this._comments.set(commentId, newComment);
         console.log('새 댓글 추가완료');
 
         this._comment = {
@@ -88,7 +95,7 @@ class CommentStore{
 
     //commentId로 Comment 찾기
     retrieve = (commentId: string):Comment | null => {
-        let foundComment = this._comments.find((comment)=> comment.commentId === commentId);
+        let foundComment = this._comments.get(commentId);
         return foundComment || null;
     };
 
@@ -113,9 +120,9 @@ class CommentStore{
             foundComment.writer = this._comment.writer;
             foundComment.contents = this._comment.contents;
 
-            this.setCommentState(true); //생성으로 입력창 상태값 변경
+            this._comments.set(this._comment.commentId, foundComment);
 
-            //데이터가 업데이트되어도 List는 변경되는 데이터가 없어서 렌더링안됨(CommentState 값을 보내서 해결)
+            this.setCommentState(true); //생성으로 입력창 상태값 변경
         }
         else{
             alert('Sorry, comment Update failed.');
@@ -124,15 +131,8 @@ class CommentStore{
 
     //선택된 Comment 삭제하는 메서드
     @action
-    removeComment(comment: Comment):void {
-
-        let foundComment = this.retrieve(comment.commentId);
-        if(foundComment){
-            const membershipIdx = this._comments.indexOf(foundComment);
-            if(membershipIdx > -1) {
-                this._comments.splice(membershipIdx, 1);
-            }
-        }
+    removeComment(commentId: string):void {
+        this._comments.delete(commentId);
     }
 }
 

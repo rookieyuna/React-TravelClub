@@ -27,7 +27,7 @@ class MembershipOfMemberContainer extends Component<IStoreProps>{
         //파라미터 저장
         let paramId  = window.location.pathname.split('/')[2];
         //검색
-        memberships = memberships.filter((searchMembership: ClubMembership) => searchMembership.clubId.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)
+        let searchMemberships = Array.from(memberships.values()).filter((searchMembership: ClubMembership) => searchMembership.clubId.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)
 
         return (
         <>
@@ -35,8 +35,7 @@ class MembershipOfMemberContainer extends Component<IStoreProps>{
             <Grid container justifyContent='center'>
                 <Grid item xs={10}>
                     <MembershipListOfMemberView
-                        memberships = {memberships}
-                        membershipState = {membershipState} //입력폼 생성&수정 변경위한 값
+                        memberships = {searchMemberships}
                         onFindClub = {this.onFindClub.bind(this)}
                     />
                 </Grid>

@@ -37,25 +37,25 @@ class MemberContainer extends Component<IStoreProps>{
 
         //멤버이메일 입력여부 확인작업
         if(!memberStore.member.email || memberStore.member.email.length===0){
-            alert('Please input member email!');
+            memberStore.setAlertText('Please input member email!');
             return;
         }
 
         //멤버이름 입력여부 확인작업
         if(!memberStore.member.name || memberStore.member.name.length===0){
-            alert('Please input member name!');
+            memberStore.setAlertText('Please input member name!');
             return;
         }
 
         //멤버전화번호 입력여부 확인작업
         if(!memberStore.member.phoneNumber || memberStore.member.phoneNumber.length===0){
-            alert('Please input member phone number!');
+            memberStore.setAlertText('Please input member phone number!');
             return;
         }
 
         //멤버이메일 중복 등록을 방지하기 위한 확인작업
         if(memberStore.retrieve(memberStore.member.email)){
-            alert('The member email is already exist!');
+            memberStore.setAlertText('The member email is already exist!');
             return;
         }
         else{
@@ -70,13 +70,13 @@ class MemberContainer extends Component<IStoreProps>{
 
         //멤버이름 입력여부 확인작업
         if(!memberStore.member.name || memberStore.member.name.length===0){
-            alert('Please input member name!');
+            memberStore.setAlertText('Please input member name!');
             return;
         }
 
         //멤버전화번호 입력여부 확인작업
         if(!memberStore.member.phoneNumber || memberStore.member.phoneNumber.length===0){
-            alert('Please input member phone number!');
+            memberStore.setAlertText('Please input member phone number!');
             return;
         }
 
@@ -95,9 +95,9 @@ class MemberContainer extends Component<IStoreProps>{
 
     render() {
 
-        let { member, members, memberState, searchText } = this.memberProps;
+        let { member, members, memberState, searchText, alertText } = this.memberProps;
 
-        members = members.filter((searchMember: CommunityMember) => searchMember.email.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)
+        const searchMembers = Array.from(members.values()).filter((searchMember: CommunityMember) => searchMember.email.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)
 
         return (
         <>
@@ -107,6 +107,7 @@ class MemberContainer extends Component<IStoreProps>{
                     <MemberEditFormView
                         member = {member}
                         memberState = {memberState} //입력폼 생성&수정 변경위한 값
+                        alertText = {alertText}
                         onSetMemberProps = {this.onSetMemberProps.bind(this)}
                         onSetMemberState ={this.onSetMemberState.bind(this)}
                         onAddMember = {this.onAddMember.bind(this)}
@@ -116,8 +117,7 @@ class MemberContainer extends Component<IStoreProps>{
                 <Grid item xs={9}>
                     <Typography display={"inline"}>Member Email: </Typography>&nbsp;<SearchbarContainer idx={"member"} />
                     <MemberListView
-                        members = {members}
-                        memberState = {memberState} //입력폼 생성&수정 변경위한 값
+                        members = {searchMembers}
                         onSelectedMember = {this.onSelectedMember.bind(this)} //인풋태그 업데이트용 프롭스로 전달
                         onRemoveMember = {this.onRemoveMember.bind(this)} //삭제함수를 프롭스로 전달
                     />

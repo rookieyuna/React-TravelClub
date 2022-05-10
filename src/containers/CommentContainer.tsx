@@ -68,10 +68,10 @@ class CommentContainer extends Component<IStoreProps>{
         this.commentProps.updateComment();
     }
 
-    onRemoveComment(comment: Comment){
+    onRemoveComment(commentId: string){
         //삭제 재확인을 위한 confirm 단계
         if(window.confirm('Are you sure to delete comment?')===true){
-            this.commentProps.removeComment(comment);
+            this.commentProps.removeComment(commentId);
         }
         else{
             alert('Delete cancelled');

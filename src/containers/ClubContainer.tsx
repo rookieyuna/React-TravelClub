@@ -33,17 +33,15 @@ class ClubContainer extends Component<IStoreProps> {
 
     onAddClub(): void{
         let  clubStore = this.clubProps;
-        //console.log('Input name: '+ this.props.clubStore.club.name);
-        //console.log('Input intro: '+ this.props.clubStore.club.intro);
 
         //클럽이름 입력여부 확인작업
         if(!clubStore.club.name || clubStore.club.name.length===0){
-            alert('Please input club name!');
+            clubStore.setAlertText('Please input club name!');
             return;
         }
         //클럽이름 중복을 방지하기 위한 확인작업
         if(clubStore.retrieveByName(clubStore.club.name)){
-            alert('The club name is already exist!');
+            clubStore.setAlertText('The club name is already exist!');
             return;
         }
         else{
@@ -56,14 +54,14 @@ class ClubContainer extends Component<IStoreProps> {
 
         //클럽이름 입력여부 확인작업
         if(!clubStore.club.name || clubStore.club.name.length===0){
-            alert('Please input club name!');
+            clubStore.setAlertText('Please input club name!');
             return;
         }
 
         //클럽이름 중복을 방지하기 위한 확인작업 (현재이름 그대로 유지할경우에도 가능하도록 Id확인)
         const overClub: TravelClub | null = clubStore.retrieveByName(clubStore.club.name);
         if(overClub && overClub.clubId!==clubStore.club.clubId){
-            alert('The club name is already exist!');
+            clubStore.setAlertText('The club name is already exist!');
             return;
         }
         else{
@@ -85,9 +83,9 @@ class ClubContainer extends Component<IStoreProps> {
 
     render() {
 
-        let { club, clubs, clubState, searchText } = this.clubProps;
+        let { club, clubs, clubState, searchText, alertText } = this.clubProps;
 
-        clubs = clubs.filter((searchClub: TravelClub) => searchClub.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)
+        const searchClubs =  Array.from(clubs.values()).filter((searchClub: TravelClub) => searchClub.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)
 
         return (
             <>
@@ -97,6 +95,7 @@ class ClubContainer extends Component<IStoreProps> {
                         <ClubEditFormView
                             club = {club}
                             clubState = {clubState} //입력폼 생성&수정 변경위한 값
+                            alertText = {alertText}
                             onSetClubProps = {this.onSetClubProps.bind(this)}
                             onSetClubState = {this.onSetClubState.bind(this)}
                             onAddClub = {this.onAddClub.bind(this)}
@@ -106,8 +105,7 @@ class ClubContainer extends Component<IStoreProps> {
                     <Grid item xs={9}>
                         <Typography display={"inline"}>Club Name: </Typography>&nbsp;<SearchbarContainer idx = {"club"}/>
                         <ClubListView
-                            clubs = {clubs}
-                            clubState = {clubState} //입력폼 생성&수정 변경위한 값
+                            clubs = {searchClubs}
                             onSelectedClub = {this.onSelectedClub.bind(this)} //인풋태그 업데이트용 프롭스로 전달
                             onRemoveClub = {this.onRemoveClub.bind(this)} //삭제함수를 프롭스로 전달
                         />

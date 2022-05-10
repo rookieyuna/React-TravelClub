@@ -4,6 +4,14 @@ import {Button, Container, Input, Paper} from "@material-ui/core";
 import SaveIcon from '@material-ui/icons/Save';
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 
+import TextField from '@mui/material/TextField';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+
+
+
+
 
 
 @observer
@@ -11,7 +19,7 @@ class MemberEditFormView extends Component<any> {
 
     render() {
 
-        const { member, memberState, onSetMemberProps, onSetMemberState, onAddMember, onUpdateMember } = this.props;  //컨테이너에서 받아온 프롭스
+        const { member, memberState, alertText, onSetMemberProps, onSetMemberState, onAddMember, onUpdateMember } = this.props;  //컨테이너에서 받아온 프롭스
 
         return (
             <Container  component={Paper}>
@@ -33,35 +41,37 @@ class MemberEditFormView extends Component<any> {
                         }
                     </div>
                     <div className="input_area">
-                        <label>Member Name </label>
+                        <label>Member Name</label>
                         <Input type="text" placeholder="Bob"
                                value={ member && member.name ? member.name : '' }
                                onChange={(event) => onSetMemberProps('name', event.target.value)}/>
                     </div>
                     <div className="input_area">
-                        <label>Member Phone </label>
+                        <label>Member Phone</label>
                         <Input type="text" placeholder="010-1111-1111"
                                value={ member && member.phoneNumber ? member.phoneNumber : '' }
                                onChange={(event) => onSetMemberProps('phoneNumber', event.target.value)}/>
                     </div>
-                    {
-                        memberState === true ? '' :
-                    <>
-                        <div className="input_area">
-                            <label>NickName </label>
-                            <Input type="text" placeholder=""
-                                   value={ member && member.nickName ? member.nickName : '' }
-                                   onChange={(event) => onSetMemberProps('nickName', event.target.value)}/>
-                        </div>
-                        <div className="input_area">
-                            <label>BirthDay </label>
-                            <Input type="text" placeholder="YYYY.MM.DD"
-                                   value={ member && member.birthDay ? member.birthDay : '' }
-                                   onChange={(event) => onSetMemberProps('birthDay', event.target.value)}/>
-                        </div>
-                    </>
-                    }
-                    <br/>
+                    <div className="input_area">
+                        <label>NickName</label>
+                        <Input type="text" placeholder=""
+                               value={ member && member.nickName ? member.nickName : '' }
+                               onChange={(event) => onSetMemberProps('nickName', event.target.value)}/>
+                    </div>
+                    <div className="input_area">
+                        <label>BirthDay</label>
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DesktopDatePicker
+                                inputFormat="yyyy-MM-dd"
+                                value={ member && member.birthDay ? member.birthDay : null } // 데이터가 있으면 데이터 없으면 공백
+                                onChange={(date) => onSetMemberProps('birthDay', date!.valueOf())}
+                                renderInput={(params) => <TextField  {...params} />}
+                            />
+                        </LocalizationProvider>
+                    </div>
+                    <span className='alertText'>{alertText}</span>
+                    <br/><br/>
+
                     {
                         memberState === true ?
                             <Button variant='contained' color='primary' startIcon={<SaveIcon />}

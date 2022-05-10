@@ -12,7 +12,7 @@ class BoardListView extends Component<any>{
 
     render() {
 
-        const {postings, postingState, onSetPostingState, onSelectedPosting, onReadCountAdd} = this.props;
+        const {postings, onSetPostingState, onSelectedPosting, onReadCountAdd} = this.props;
 
         //선택한 board의 postingList만 나오도록 설정
         let paramId  = window.location.pathname.split('/')[2];

@@ -69,9 +69,7 @@ class PostingEditView extends Component<any>{
                 <div>
                     <Button variant='contained' color='primary' startIcon={<SaveIcon/>}
                             onClick={() => {onUpdatePosting(); onSetPostingState("list")}}>Save</Button>&nbsp;&nbsp;
-                    <Button variant='contained' color='default' startIcon={<UpdateIcon/>}
-                            type='reset'>Reset</Button>&nbsp;&nbsp;
-                    <Button variant='contained' color='default' startIcon={<ListAltIcon/>}
+                    <Button variant='outlined' color='default' startIcon={<ListAltIcon/>}
                             onClick={() => onSetPostingState("list")}>List</Button>
                 </div>
             </form>
